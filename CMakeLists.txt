@@ -8,15 +8,23 @@
 # YARP needs CMake 3.0 or greater
 cmake_minimum_required(VERSION 3.12)
  
+# project name
+project(printer2)
+
 # find YARP
 find_package(YARP COMPONENTS os REQUIRED)
+find_package(YARP COMPONENTS sig REQUIRED)
+find_package(YARP COMPONENTS math REQUIRED)
+find_package(YARP COMPONENTS manager REQUIRED)
+#find_package(YARP COMPONENTS manager REQUIRED)
+#find_package(YARP)
  
 # set up our program
-add_executable(printer)
+add_executable(printer2)
  
 # declare our source files
-target_sources(printer PRIVATE printer.cpp)
+target_sources(printer2 PRIVATE printer2.cpp)
  
 # link with YARP libraries
-target_link_libraries(printer PRIVATE YARP::YARP_os
+target_link_libraries(printer2 PRIVATE YARP::YARP_os
                                     YARP::YARP_init)
