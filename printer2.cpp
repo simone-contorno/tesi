@@ -79,14 +79,11 @@ class Printer {
             /* Queste sono le varie prove, dei vari comandi che ho provato ad utilizzare */
             /* ma tutti questi mi danno errore.                                           */
             /* ************************************************************************* */
-            //pYarpBroker -> ~YarpBroker();
-            //pYarpBroker -> init();
             //pManager -> ~Manager();
             //Manager *man = new Manager("/usr/share/yarp/modules", 
                 //"/usr/share/yarp/applications", "/usr/share/yarp", false);
             //Manager *man = new Manager(false);
-            //Executable* pExecutable2 = pManager -> getExecutableById();
-            //Running r = new Running(pExecutable, pEventSink);
+            //pManager -> allRunning();
             
             // Starting info
             yInfo() << "Printer is running..."; 
