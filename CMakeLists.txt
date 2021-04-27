@@ -28,3 +28,6 @@ target_sources(printer2 PRIVATE printer2.cpp)
 # link with YARP libraries
 target_link_libraries(printer2 PRIVATE YARP::YARP_os
                                     YARP::YARP_init)
+                                    
+target_link_libraries(printer2 PRIVATE YARP::YARP_os
+                                    YARP::YARP_init YARP::YARP_manager)
