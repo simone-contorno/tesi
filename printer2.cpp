@@ -16,10 +16,6 @@
 #include <yarp/manager/singleapploader.h>
 #include <yarp/os/impl/NameClient.h>
 
-#define BROKER_LOCAL            "local"
-#define BROKER_YARPRUN          "yarprun"
-#define BROKER_YARPDEV          "yarpdev"
-
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/LogStream.h>
