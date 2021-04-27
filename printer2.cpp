@@ -6,6 +6,10 @@
  * BSD-3-Clause license. See the accompanying LICENSE file for details.
  */
 
+/* ********************************** */
+/* This is the file cpp does not work */
+/* ********************************** */
+
 #include <yarp/manager/localbroker.h>
 #include <yarp/manager/yarpdevbroker.h>
 #include <yarp/manager/scriptbroker.h>
@@ -79,7 +83,9 @@ class Printer {
             cout << pExecutable << endl;
             cout << pEventSink << endl;
             cout << pYarpBroker << endl << endl;
-
+            
+            /* These are my various tests trying to execute any function about these classes */
+            
             //pYarpBroker -> ~YarpBroker();
             //pYarpBroker -> init();
             //pManager -> ~Manager();
