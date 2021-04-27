@@ -81,9 +81,8 @@ class Printer {
             /* ************************************************************************* */
             //pManager -> ~Manager(); // Segmentetio Fault 
             //Manager *man = new Manager("/usr/share/yarp/modules", 
-                //"/usr/share/yarp/applications", "/usr/share/yarp", false);
-            //Manager *man = new Manager(false);
-            //pManager -> allRunning();
+                //"/usr/share/yarp/applications", "/usr/share/yarp", false); // Undefined reference
+            //Manager *man = new Manager(false); // Undefined reference
             
             // Starting info
             yInfo() << "Printer is running..."; 
