@@ -6,6 +6,10 @@
  * BSD-3-Clause license. See the accompanying LICENSE file for details.
  */
 
+/* *********************************************************************** */
+/* This is the file cpp that i have used to try to print and connect ports */
+/* *********************************************************************** */
+
 //#include <yarp/os/BufferedPort.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Network.h>
