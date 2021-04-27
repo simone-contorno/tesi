@@ -79,7 +79,7 @@ class Printer {
             /* Queste sono le varie prove, dei vari comandi che ho provato ad utilizzare */
             /* ma tutti questi mi danno errore.                                           */
             /* ************************************************************************* */
-            //pManager -> ~Manager();
+            //pManager -> ~Manager(); // Segmentetio Fault 
             //Manager *man = new Manager("/usr/share/yarp/modules", 
                 //"/usr/share/yarp/applications", "/usr/share/yarp", false);
             //Manager *man = new Manager(false);
