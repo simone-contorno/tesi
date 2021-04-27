@@ -12,12 +12,12 @@ cmake_minimum_required(VERSION 3.12)
 project(printer2)
 
 # find YARP
-find_package(YARP COMPONENTS os REQUIRED)
-find_package(YARP COMPONENTS sig REQUIRED)
-find_package(YARP COMPONENTS math REQUIRED)
-find_package(YARP COMPONENTS manager REQUIRED)
+#find_package(YARP COMPONENTS os REQUIRED)
+#find_package(YARP COMPONENTS sig REQUIRED)
+#find_package(YARP COMPONENTS math REQUIRED)
 #find_package(YARP COMPONENTS manager REQUIRED)
-#find_package(YARP)
+#find_package(YARP COMPONENTS manager REQUIRED)
+find_package(YARP)
  
 # set up our program
 add_executable(printer2)
