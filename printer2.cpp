@@ -16,6 +16,10 @@
 #include <yarp/manager/singleapploader.h>
 #include <yarp/os/impl/NameClient.h>
 
+#define BROKER_LOCAL            "local"
+#define BROKER_YARPRUN          "yarprun"
+#define BROKER_YARPDEV          "yarpdev"
+
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Network.h>
 #include <yarp/os/LogStream.h>
@@ -52,11 +56,8 @@ class Printer {
         string command;
         Bottle cmd;
         time_t t;
-        
-        Manager* pManager;
-        Executable* pExecutable;
-        FSM::IEventSink* pEventSink;
-        YarpBroker* pYarpBroker;
+
+        //Manager* pManager;
     public: 
         void startMessage(string port_name) {
             /*
@@ -69,21 +70,33 @@ class Printer {
             cout << "*   Author: Simone Contorno    *" << endl;
             cout << "*                              *" << endl;
             cout << "********************************" << endl << endl;
+
+            //pManager = new Manager();  
+            Manager manager;
+            bool isOk = false;
+            string fileName = "./eyesviewer-localhost.xml";
+            //pManager = new Manager();
             
-            cout << pManager << endl;
-            cout << pExecutable << endl;
-            cout << pEventSink << endl;
-            cout << pYarpBroker << endl << endl;
+            isOk = manager.addApplication(fileName.c_str());
+            cout << "Application added: " << isOk << endl;
+
+            isOk = manager.loadApplication(fileName.c_str());
+            cout << "Application loaded: " << isOk << endl;
+
+            isOk = manager.run(0, true);
+            cout << "Application runned: " << isOk << endl;
             
-            /* ************************************************************************* */
-            /* Queste sono le varie prove, dei vari comandi che ho provato ad utilizzare */
-            /* ma tutti questi mi danno errore.                                           */
-            /* ************************************************************************* */
-            //pManager -> ~Manager(); // Segmentetio Fault 
-            //Manager *man = new Manager("/usr/share/yarp/modules", 
-                //"/usr/share/yarp/applications", "/usr/share/yarp", false); // Undefined reference
-            //Manager *man = new Manager(false); // Undefined reference
-            
+            /*
+            isOk = pManager -> addApplication(fileName.c_str());
+            cout << "Application added: " << isOk << endl;
+
+            isOk = pManager -> loadApplication(fileName.c_str());
+            cout << "Application loaded: " << isOk << endl;
+
+            isOk = pManager -> run();
+            cout << "Application runned: " << isOk << endl;
+            */
+           
             // Starting info
             yInfo() << "Printer is running..."; 
             cout << endl;

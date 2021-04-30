@@ -9,25 +9,32 @@
 cmake_minimum_required(VERSION 3.12)
  
 # project name
-project(printer2)
-
+#project(printer2)
+project(printer2
+VERSION 1.0.0
+LANGUAGES CXX)
 # find YARP
-#find_package(YARP COMPONENTS os REQUIRED)
+find_package(YARP)
+find_package(YARP COMPONENTS os REQUIRED)
 #find_package(YARP COMPONENTS sig REQUIRED)
 #find_package(YARP COMPONENTS math REQUIRED)
 #find_package(YARP COMPONENTS manager REQUIRED)
+
+find_package(YCM 0.11 REQUIRED)
+find_package(YARP COMPONENTS os manager dev REQUIRED)
 #find_package(YARP COMPONENTS manager REQUIRED)
-find_package(YARP)
- 
+#find_package(YARP COMPONENTS profiler REQUIRED)
+
 # set up our program
 add_executable(printer2)
  
 # declare our source files
 target_sources(printer2 PRIVATE printer2.cpp)
  
-# link with YARP libraries
-target_link_libraries(printer2 PRIVATE YARP::YARP_os
-                                    YARP::YARP_init)
-                                    
-target_link_libraries(printer2 PRIVATE YARP::YARP_os
-                                    YARP::YARP_init YARP::YARP_manager)
+# link with YARP libraries                                    
+target_link_libraries(printer2 PRIVATE 
+                                YARP::YARP_os
+                                YARP::YARP_init 
+                                YARP::YARP_manager) 
+                                #YARP::YARP_profiler)
+                    
