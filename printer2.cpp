@@ -74,7 +74,7 @@ class Printer {
             bool check = false;
             char* szAppName = nullptr;
             
-            /*
+            /* Adding and Loading Applications
             for (int i=0; i < appNum; i++) {
                 fileName = appPath + appList[i+1];
                 check = manager.addApplication(fileName.c_str(), &szAppName, true);
@@ -86,7 +86,7 @@ class Printer {
             cout << endl << "**************************************************" << endl << endl;
             */
 
-            /*
+            /* Adding Modules
             for (int i=0; i < modNum; i++) {
                 fileName = modPath + modList[i+1];
                 check = manager.addModule(fileName.c_str());
@@ -101,7 +101,7 @@ class Printer {
             //yarp.connect("/root",portName);
             command = "yarp connect /root " + portName;
             system(command.c_str());
-
+            
             cout << "Message Printer is running..." << endl; 
             cout << endl << "**************************************************" << endl << endl;
             
@@ -114,26 +114,37 @@ class Printer {
             cout << "Application " << fileName << " added: " << check << endl;
             check = manager.loadApplication(szAppName);
             cout << "Application loaded: " << check << endl;  
+            manager.removeApplication(fileName.c_str(), szAppName);
 
+            /* Test */
             Executable* exec;
             ExecutablePContainer executablePContainer;
             const char* appName = manager.getApplicationName();
-            cout << "Application name: " << appName << endl << endl;
+            cout << "Application name: " << appName << endl;
             executablePContainer = manager.getExecutables();
-            cout << "Number of executables: " << executablePContainer.size() << endl;
+            cout << "Number of Executables: " << executablePContainer.size() << endl << endl;
             exec = manager.getExecutableById(0);
-            execState(exec);
+            check = manager.getExecutableById(0); // check
+            cout << "Get excutable by id '0': " << check << endl;
+            execState(exec, 0);
+
+            cout << endl << "Trying to run executable... " << endl;
             check = manager.run(0);
             cout << "Application runned: " << check << endl;
-            execState(exec);
+            execState(exec, 0);
+
             /*
+            cout << endl << "Trying to stop executable..." << endl;
             check = manager.stop(0);
             cout << "Application stopped: " << check << endl;
             execState(exec);
+
+            cout << endl << "Trying to kill executable..." << endl;
             check = manager.kill(0);
             cout << "Application killed: " << check << endl;
             execState(exec);
             */
+
             cout << endl << "**************************************************" << endl << endl;
 
             while (true) {
@@ -144,32 +155,19 @@ class Printer {
                 port.read(cmd,true);
                 string conn_name = getProcessName(cmd);
                 
-                printf("Got: %s\n", cmd.toString().c_str());
-
-                /*
-                 * Printing Connection Message
-                 */
-                /*
+                /* Printing message */
                 if (cmd.toString().find("[add]") == 0 ||
                         cmd.toString().find("[del]") == 0) {
-                    for (int i = 0; i < appMod; i++) {
-                        check = manager.running(i);
-                        if (check == true)
-                            cout << "Module running: " << endl;
-                        else 
-                            cout << "Module not running: " << endl;
-                    }
-                }
-                */
-               if (cmd.toString().find("[add]") == 0 ||
-                        cmd.toString().find("[del]") == 0) {
-                    for (int i = 0; i < 1; i++) {
+                    for (int i = 0; i < executablePContainer.size(); i++) {
+                        manager.getExecutableById(i);
+                        /*
                         check = manager.running(i);
                         if (check == true)
                             cout << "Application running" << endl;
                         else 
                             cout << "Application not running" << endl;
-                        execState(exec);
+                        */
+                        execState(exec, i);
                     }
                 }
                 if (cmd.toString().find("[add]") == 0) {
@@ -218,8 +216,8 @@ class Printer {
         /*
          * Getting Executable State
          */
-        void execState(Executable* exec) {
-            cout << "Executable state: ";
+        void execState(Executable* exec, int i) {
+            cout << "Executable state by id '" << i << "': ";
             switch(exec->state()) {
                 case 0: cout << "SUSPENDED"; break;
                 case 1: cout << "READY"; break;
@@ -354,11 +352,11 @@ int main(int argc, char* argv[]) {
     cout << "********************************" << endl << endl;
 
     /* Sypplying data */
-    string portName = "/printer2";
-    //string portName;
+    //string portName = "/printer2";
+    string portName;
     cout << "Please supply a port name for the server: ";
-    //cin >> portName;
-    //portName = "/" + portName;
+    cin >> portName;
+    portName = "/" + portName;
 
     /* Reading Applications path */ 
     string appPath = objInit.getApplicationsPath();
