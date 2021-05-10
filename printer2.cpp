@@ -65,36 +65,16 @@ class Printer {
         string command;
         Bottle cmd;
         Manager manager;
+        Executable* exec;
+        ExecutablePContainer executablePContainer;    
+
+        char* szAppName = nullptr;
 
     public: 
         void messagePrinter(string portName, int appNum, string appPath, vector<string> appList,
                                 int modNum, string modPath, vector<string> modList) {
             
-            string fileName = "";
-            bool check = false;
-            char* szAppName = nullptr;
-            
-            /* Adding and Loading Applications
-            for (int i=0; i < appNum; i++) {
-                fileName = appPath + appList[i+1];
-                check = manager.addApplication(fileName.c_str(), &szAppName, true);
-                cout << "Application " << fileName << " added: " << check << endl;
-                //check = manager.loadApplication(szAppName);
-                //cout << "Application loaded: " << check << endl;           
-            }
-
-            cout << endl << "**************************************************" << endl << endl;
-            */
-
-            /* Adding Modules
-            for (int i=0; i < modNum; i++) {
-                fileName = modPath + modList[i+1];
-                check = manager.addModule(fileName.c_str());
-                cout << "Module " << fileName << " added: " << check << endl;      
-            }
-
-            cout << endl << "**************************************************" << endl << endl;
-            */
+                        
 
             /* Opening port_name and connect with /root */
             port.open(portName);
@@ -104,21 +84,24 @@ class Printer {
             
             cout << "Message Printer is running..." << endl; 
             cout << endl << "**************************************************" << endl << endl;
-            
-            //fileName = "/home/simone/yarp/data/yarpmanager/tests/xml/applications/eyesviewer-localhost.xml";
-            //fileName = "/home/simone/yarp/build/share/yarp/applications/eyesviewer-localhost.xml";
-            //fileName = "/home/simone/.local/share/Trash/files/eyesviewer-localhost.xml";
-            //fileName = "/usr/share/yarp/./applications/eyesviewer-localhost.xml";
+        
+            cout << "Digit 'help' to see all avaiable commands" << endl;
+            while (true) {
+                getInput(appNum, appPath, appList, modNum, modPath, modList);
+            }
+            /*
+            string fileName = "";
+            bool check = false;
+            char* szAppName = nullptr;
             fileName = "/usr/share/yarp/applications/eyesviewer-localhost.xml";
             check = manager.addApplication(fileName.c_str(), &szAppName, true);
             cout << "Application " << fileName << " added: " << check << endl;
             check = manager.loadApplication(szAppName);
             cout << "Application loaded: " << check << endl;  
             manager.removeApplication(fileName.c_str(), szAppName);
+            
+            // TEST 
 
-            /* Test */
-            Executable* exec;
-            ExecutablePContainer executablePContainer;
             const char* appName = manager.getApplicationName();
             cout << "Application name: " << appName << endl;
             executablePContainer = manager.getExecutables();
@@ -127,11 +110,21 @@ class Printer {
             check = manager.getExecutableById(0); // check
             cout << "Get excutable by id '0': " << check << endl;
             execState(exec, 0);
-
+            
             cout << endl << "Trying to run executable... " << endl;
             check = manager.run(0);
             cout << "Application runned: " << check << endl;
             execState(exec, 0);
+
+
+            */
+            /*
+            exec = manager.getExecutableById(1);
+            cout << endl << "Trying to run executable... " << endl;
+            check = manager.run(0);
+            cout << "Application runned: " << check << endl;
+            execState(exec, 0);
+            */
 
             /*
             cout << endl << "Trying to stop executable..." << endl;
@@ -147,6 +140,9 @@ class Printer {
 
             cout << endl << "**************************************************" << endl << endl;
 
+            
+            //command = "gnome-terminal";
+            //system(command.c_str());
             while (true) {
                 /* Getting time */ 
                 string current_time = getTime();
@@ -229,6 +225,163 @@ class Printer {
             }
             cout << endl;
         }
+
+        /*
+         * Getting input
+         */
+        void getInput(int appNum, string appPath, vector<string> appList,
+                                int modNum, string modPath, vector<string> modList) {
+            string fileName = "";
+            bool check = false;
+            int IDs = -1;
+            string in = "";
+            cout << ">> ";
+ 
+            getline(cin,in);
+            in.erase(remove_if(in.begin(), in.end(), ::isspace), in.end());
+            
+            cout << endl;
+
+            if (in.find("help") != std::string::npos) {
+                cout << "help                   : show help." << endl;
+                cout << "exit                   : exit printer." << endl;
+                cout << "list mod               : list available modules." << endl;
+                cout << "list app               : list available application" << endl;
+                cout << "list res               : list available resources." << endl;
+                cout << "add mod <filename>     : add a module from its description file." << endl;
+                cout << "add app <filename>     : add an application from its description file." << endl;
+                cout << "add res <filename>     : add resources from a description file." << endl;
+                cout << "load app <application> : load an application to run." << endl;
+                cout << "run [IDs]              : run application or a modules indicated by IDs." << endl;
+                cout << "stop [IDs]             : stop running application or modules indicated by IDs." << endl;
+                cout << "kill [IDs]             : kill running application or modules indicated by IDs." << endl;
+                cout << "connect [IDs]          : stablish connection indicated by IDs." << endl;
+                cout << "disconnect [IDs]       : remove connection indicated by IDs." << endl;
+            }        
+
+            //else if (in == "exit")
+                // ToDo: close all connections, ports and close program
+                
+            else if (in.find("listmod") != std::string::npos) {
+                cout << "Modules list (" << modNum << "): " << endl;
+                for (int i = 0; i < modList.size(); i++) {
+                    if (modList[i] == "") continue;
+                    cout << i << "." << modList[i] << endl;
+                }    
+            }
+            
+            else if (in.find("listapp") != std::string::npos) {           
+                cout << "Applications list (" << appNum << "): " << endl;
+                for (int i = 0; i < appList.size(); i++) {
+                    if (appList[i] == "") continue;
+                    cout << i << "." << appList[i] << endl;
+                }
+            }
+
+            else if (in.find("listres") != std::string::npos) {
+                // ToDo: print resources list
+            }
+
+            else if (in.find("addmod") != std::string::npos) {
+                fileName = modPath + in.erase(0,6);
+                check = manager.addModule(fileName.c_str());
+                if (check == 1)
+                    cout << "Module " << fileName.erase(0,modPath.length()) << " added." << endl;
+                else 
+                    cout << "An error occurred: Module " << fileName.erase(0,modPath.length()) << " did not add." << endl;
+            }
+
+            else if (in.find("addapp") != std::string::npos) {
+                fileName = appPath + in.erase(0,6);
+                check = manager.addApplication(fileName.c_str(), &szAppName, true);
+                if (check == 1)
+                    cout << "Application " << fileName.erase(0,appPath.length()) << " added." << endl;
+                else 
+                    cout << "An error occurred: Application " << fileName.erase(0,appPath.length()) << " did not add." << endl;
+            }
+
+            else if (in.find("addres") != std::string::npos) {
+                /*
+                fileName = resPath + in.erase(0,6);
+                check = manager.addResource(fileName.c_str());
+                if (check == 1)
+                    cout << "Resource" << fileName << " added." << endl;
+                else 
+                    cout << "An error occurred: Resource" << fileName << " did not add." << endl;
+                */
+            }
+
+            else if (in.find("loadapp") != std::string::npos) {
+                fileName = appPath + in.erase(0,7);
+                check = manager.loadApplication(szAppName);
+                if (check == 1)
+                    cout << "Application " << fileName.erase(0,appPath.length()) << " loaded." << endl;
+                else 
+                    cout << "An error occurred: Application " << fileName.erase(0,appPath.length()) << " did not load." << endl; 
+            }
+
+            else if (in.find("run") != std::string::npos) {
+                if (in.length() > 3) {
+                    IDs = stoi(in.erase(0,3));
+                    check = manager.run(IDs);
+                    if (check == 1)
+                        cout << "IDs " << IDs << " is running." << endl;
+                    else 
+                        cout << "An error occurred: IDs " << IDs << " is not running." << endl; 
+                }
+                else cout << "Please insert ad IDs." << endl;
+            }
+
+            else if (in.find("stop") != std::string::npos) {
+                if (in.length() > 4) {
+                    IDs = stoi(in.erase(0,4));
+                    check = manager.stop(IDs);
+                    if (check == 1)
+                        cout << "IDs " << IDs << " stopped." << endl;
+                    else 
+                        cout << "An error occurred: IDs " << IDs << " did not stopped." << endl;
+                }
+                else cout << "Please insert ad IDs." << endl;
+            }
+
+            else if (in.find("kill") != std::string::npos) {
+                if (in.length() > 4) {
+                    IDs = stoi(in.erase(0,4));
+                    check = manager.kill(IDs);
+                    if (check == 1)
+                        cout << "IDs " << IDs << " killed." << endl;
+                    else 
+                        cout << "An error occurred: IDs " << IDs << " did not killed." << endl; 
+                }
+                else cout << "Please insert ad IDs." << endl;
+            }
+
+            else if (in.find("connect") != std::string::npos && 
+                        in.find("disconnect") == std::string::npos) {
+                if (in.length() > 7) {
+                    IDs = stoi(in.erase(0,7));
+                    check = manager.connect(IDs);
+                    if (check == 1)
+                        cout << "IDs " << IDs << " connected." << endl;
+                    else 
+                        cout << "An error occurred: IDs " << IDs << " did not connected." << endl; 
+                }
+                else cout << "Please insert ad IDs." << endl;
+            }
+
+            else if (in.find("disconnect") != std::string::npos) {
+                if (in.length() > 10) {
+                    IDs = stoi(in.erase(0,10));
+                    check = manager.disconnect(IDs);
+                    if (check == 1)
+                        cout << "IDs " << IDs << " disconnected." << endl;
+                    else 
+                        cout << "An error occurred: IDs " << IDs << " did not disconnected." << endl; 
+                }
+                else cout << "Please insert ad IDs." << endl;
+            }
+            cout << endl;
+        }
 };
 
 /*
@@ -275,14 +428,6 @@ class Init {
                 appNum++;
             } 
 
-            cout << "Applications list (" << appNum << "): " << endl;
-            for (int i = 0; i < appList.size(); i++) {
-                if (appList[i] == "") continue;
-                cout << i << "." << appList[i] << endl;
-            }
-
-            cout << endl << "**************************************************" << endl << endl;
-
             return appList;
         }
 
@@ -323,14 +468,6 @@ class Init {
                 modNum++;
             } 
             
-            cout << "Modules list (" << modNum << "): " << endl;
-            for (int i = 0; i < modList.size(); i++) {
-                if (modList[i] == "") continue;
-                cout << i << "." << modList[i] << endl;
-            }
-
-            cout << endl << "**************************************************" << endl << endl;
-
             return modList;
         }
 };
@@ -390,3 +527,30 @@ if (argc < 2) {
     
 //objPrinter.messagePrinter(argv[1]);
 
+//fileName = "/home/simone/yarp/data/yarpmanager/tests/xml/applications/eyesviewer-localhost.xml";
+            //fileName = "/home/simone/yarp/build/share/yarp/applications/eyesviewer-localhost.xml";
+            //fileName = "/home/simone/.local/share/Trash/files/eyesviewer-localhost.xml";
+            //fileName = "/usr/share/yarp/./applications/eyesviewer-localhost.xml";
+
+                        
+            /* Adding and Loading Applications
+            for (int i=0; i < appNum; i++) {
+                fileName = appPath + appList[i+1];
+                check = manager.addApplication(fileName.c_str(), &szAppName, true);
+                cout << "Application " << fileName << " added: " << check << endl;
+                //check = manager.loadApplication(szAppName);
+                //cout << "Application loaded: " << check << endl;           
+            }
+
+            cout << endl << "**************************************************" << endl << endl;
+            */
+
+            /* Adding Modules
+            for (int i=0; i < modNum; i++) {
+                fileName = modPath + modList[i+1];
+                check = manager.addModule(fileName.c_str());
+                cout << "Module " << fileName << " added: " << check << endl;      
+            }
+
+            cout << endl << "**************************************************" << endl << endl;
+            */
