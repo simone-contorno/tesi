@@ -35,6 +35,9 @@
 #include <ctime>
 #include <sys/types.h>
 #include <dirent.h>
+#include <signal.h>
+
+#define SIGINT 2
 
 using yarp::os::Bottle;
 using yarp::os::Network;
@@ -66,40 +69,40 @@ class Console {
         void messageConsole(string portName, int appNum, string appPath, vector<string> appList,
                                 int modNum, string modPath, vector<string> modList) {
             
-            /* Opening port_name and connect with /root */
+            /* Opening portName */
             port.open(portName);
 
-            cout << "Type 'help' to see all avaiable commands." << endl;
+            cout << endl << "Console is running..." << endl;
+            cout << endl << "**************************************************" << endl;
+            cout << endl << "Type 'help' to see all avaiable commands." << endl;
 
+            int esc = 0;
             while (true) {
-                getInput(appNum, appPath, appList, modNum, modPath, modList);
+                getInput(appNum, appPath, appList, modNum, modPath, modList, esc);
+                if (esc == 1)
+                    break;
             }
-
-            cout << endl << "**************************************************" << endl << endl;
-
-            //command = "gnome-terminal";
-            //system(command.c_str());
-            
-            port.close();
         }
         
         /*
          * Getting input
          */
         void getInput(int appNum, string appPath, vector<string> appList,
-                                int modNum, string modPath, vector<string> modList) {
+                                int modNum, string modPath, vector<string> modList, int& esc) {
+            /* Variables */
             string fileName = "";
+            string in = "";
+            string msg = "";
+            string instr[4] = {"", "", "", ""};
             bool check = false;
             int IDs = -1;
-            string in = "";
-            
             const std::string directorySeparator{yarp::conf::filesystem::preferred_separator};
-
-            getline(cin,in);
-            string instr[4] = {"", "", "", ""};
-            int j = 0;
             
-            //in.erase(remove_if(in.begin(), in.end(), ::isspace), in.end());
+            /* Get instruction */
+            getline(cin,in);
+            
+            /* Parse instruction */
+            int j = 0;
             int flag = 0;
             for (int i = 0; i < in.length(); i++) {
                 if (in.at(i) != ' ') {
@@ -148,12 +151,6 @@ class Console {
                 cout << "export <filename>      : export application's graph as Graphviz dot format." << endl;
                 cout << "show mod <modname>     : display module information (description, input, output,...)." << endl;
                 cout << "assign hosts           : automatically assign modules to proper nodes using load balancer." << endl;
-
-                Bottle& output = port.prepare();
-                output.clear();
-                output.addString("writing...");
-                cout << "writing " << output.toString().c_str();
-                port.write();
             }        
 
             /*
@@ -167,9 +164,10 @@ class Console {
                         manager.stop();
                         manager.kill();
                         manager.disconnect();
+                        port.close();
+                        esc = 1;
+                        cout << endl << "Bye. :)" << endl << endl;
                     }
-                    else 
-                        cout << "Bye :)";
                 } while (in != "y" && in != "n");
             }
             
@@ -194,13 +192,13 @@ class Console {
                     cout<< "(" << id++ << ") " << mod->getName() 
                         << " [" << fname << "]" << endl;
                 }
-                */  
+                */
                 
                 cout << "Modules list (" << modNum << "): " << endl;
                 for (int i = 0; i < modList.size(); i++) {
                     if (modList[i] == "") continue;
-                    cout << i << "." << modList[i] << endl;
-                } 
+                    cout << "(" << i << ") " << modList[i] << endl;
+                }  
             }
             
             /*
@@ -229,7 +227,7 @@ class Console {
                 cout << "Applications list (" << appNum << "): " << endl;
                 for (int i = 0; i < appList.size(); i++) {
                     if (appList[i] == "") continue;
-                    cout << i << "." << appList[i] << endl;
+                    cout << "(" << i << ") " << appList[i] << endl;
                 }
             }
             
@@ -321,14 +319,20 @@ class Console {
                 if (instr[1] != "") {
                     IDs = stoi(instr[1]);
                     check = manager.run(IDs);
-                    if (check == 1)
+                    if (check == 1) {
                         cout << "IDs " << IDs << " is running." << endl;
+                        msg = "[YMC2-INFO] Module " + to_string(IDs) + 
+                            " of Application " + string(manager.getApplicationName()) + " runned";
+                        sendMessage(msg);
+                    }
                     else 
-                        cout << "FAIL: IDs " << IDs << " is not running." << endl; 
+                        cout << "FAIL: IDs " << IDs << " is not running" << endl; 
                 }
-                else 
+                else {
                     manager.run();
-                // cout << "Please insert ad IDs." << endl;
+                    msg = "[YMC2-INFO] Modules of Application " + string(manager.getApplicationName()) + " runned";
+                    sendMessage(msg);
+                }
             }
 
             /*
@@ -338,14 +342,20 @@ class Console {
                 if (instr[1] != "") {
                     IDs = stoi(instr[1]);
                     check = manager.stop(IDs);
-                    if (check == 1)
+                    if (check == 1) {
                         cout << "IDs " << IDs << " stopped." << endl;
+                        msg = "[YMC2-INFO] Module " + to_string(IDs) + 
+                            " of Application " + string(manager.getApplicationName()) + " stopped";
+                        sendMessage(msg);
+                    }
                     else 
                         cout << "FAIL: IDs " << IDs << " did not stopped." << endl;
                 }
-                else 
+                else {
                     manager.stop();
-                // cout << "Please insert ad IDs." << endl;
+                    msg = "[YMC2-INFO] Modules of Application " + string(manager.getApplicationName()) + " stopped";
+                    sendMessage(msg);
+                }
             }
 
             /*
@@ -355,14 +365,20 @@ class Console {
                 if (instr[1] != "") {
                     IDs = stoi(instr[1]);
                     check = manager.kill(IDs);
-                    if (check == 1)
+                    if (check == 1) {
                         cout << "IDs " << IDs << " killed." << endl;
+                        msg = "[YMC2-INFO] Module " + to_string(IDs) + 
+                            " of Application " + string(manager.getApplicationName()) + " killed";
+                        sendMessage(msg);
+                    }
                     else 
                         cout << "FAIL: IDs " << IDs << " did not killed." << endl; 
                 }
-                else 
+                else {
                     manager.kill();
-                // cout << "Please insert ad IDs." << endl;
+                    msg = "[YMC2-INFO] Modules of Application " + string(manager.getApplicationName()) + " killed";
+                    sendMessage(msg);
+                }
             }
 
             /*
@@ -372,14 +388,13 @@ class Console {
                 if (instr[1] != "") {
                     IDs = stoi(instr[1]);
                     check = manager.connect(IDs);
-                    if (check == 1)
+                    if (check == 1) 
                         cout << "IDs " << IDs << " connected." << endl;
                     else 
                         cout << "FAIL: IDs " << IDs << " did not connected." << endl; 
                 }
                 else 
                     manager.connect();
-                // cout << "Please insert ad IDs." << endl;
             }
 
             /*
@@ -396,7 +411,6 @@ class Console {
                 }
                 else 
                     manager.disconnect();
-                // cout << "Please insert ad IDs." << endl;
             }
 
             /*
@@ -435,7 +449,6 @@ class Console {
                 }
                 else 
                     checkStates();
-                // cout << "Please insert ad IDs." << endl;
             }
 
             /*
@@ -458,7 +471,6 @@ class Console {
                 }
                 else 
                     checkConnections();
-                // cout << "Please insert ad IDs." << endl;
             }
 
             /*
@@ -525,7 +537,7 @@ class Console {
             /*
              * show mod
              */
-            else if (instr[0] == "show" && instr[1] != "mod" && instr[2] != "") {
+            else if (instr[0] == "show" && instr[1] == "mod" && instr[2] != "") {
                 KnowledgeBase* kb = manager.getKnowledgeBase();
                 check = kb->getModule(instr[2].c_str());
                 if (check == 1)
@@ -546,7 +558,8 @@ class Console {
                     cout << "Instruction not valid, type 'help' for more informations about it." << endl;
     
             reportErrors();
-            cout << endl << ">> ";
+            if (esc == 0)
+                cout << endl << ">> ";
         }
 
         /*
@@ -563,8 +576,8 @@ class Console {
 
             cout << endl << "Modules: " << endl;
             int id = 0;
-            for(moditr = modules.begin(); moditr < modules.end(); moditr++) {
-                cout << "("<<id++<<") " << (*moditr)->getCommand();
+            for (moditr = modules.begin(); moditr < modules.end(); moditr++) {
+                cout << "(" << id++ << ") " << (*moditr)->getCommand();
                 cout << " [" << (*moditr)->getHost() << "] [" << (*moditr)->getParam() << "]";
                 cout << " [" << (*moditr)->getEnv() << "]" << endl;
             }
@@ -596,7 +609,7 @@ class Console {
             unsigned int id = 0;
             bool bShouldRun = false;
             for (moditr = modules.begin(); moditr < modules.end(); moditr++) {
-                if(manager.running(id)) {
+                if (manager.running(id)) {
                     bShouldRun = true;
                     cout << "<RUNNING> ";
                 }
@@ -616,7 +629,7 @@ class Console {
             CnnIterator cnnitr;
             int id = 0;
             for (cnnitr = connections.begin(); cnnitr < connections.end(); cnnitr++) {
-                if(manager.connected(id))
+                if (manager.connected(id))
                     cout << "<CONNECTED> ";
                 else
                     cout << "<DISCONNECTED> ";
@@ -634,12 +647,22 @@ class Console {
             ErrorLogger* logger  = ErrorLogger::Instance();
             if(logger->errorCount() || logger->warningCount()) {
                 const char* msg;
-                while((msg = logger->getLastError()))
+                while ((msg = logger->getLastError()))
                     cout << "ERROR: " << msg << endl;
 
-                while((msg = logger->getLastWarning()))
+                while ((msg = logger->getLastWarning()))
                     cout << "WARNING: " << msg << endl;
             }
+        }
+
+        /*
+         * Sending message to yarpmanager-printer
+         */
+        void sendMessage(string msg) {
+            Bottle& output = port.prepare();
+            output.clear();
+            output.addString(msg);
+            port.write(); 
         }
 };
 
@@ -662,7 +685,7 @@ class Init {
             while (true) {
                 cout << "Please supply the path to manager applications: ";
                 //cin >> appPath;
-                cout << endl;
+                cout << endl << endl;
                 if (appPath[appPath.size()-1] != '/')
                     appPath.append("/");
                 dir  = opendir(appPath.c_str());
@@ -680,13 +703,16 @@ class Init {
         */
         vector<string> getApplicationsList(int& appNum) {
             vector<string> appList = {""};
-            cout << appList[0] << endl;
             while ((pDir = readdir(dir)) != NULL) {
                 if (string(pDir->d_name).find(".xml") == string::npos)
                     continue; 
-                appList.push_back(string(pDir->d_name));
+                if (appList[0] == "")
+                    appList[0] = string(pDir->d_name);
+                else 
+                    appList.push_back(string(pDir->d_name));
                 appNum++;
             } 
+            
             return appList;
         }
 
@@ -700,7 +726,7 @@ class Init {
             while (true) {
                 cout << "Please supply the path to manager modules: ";
                 //cin >> modPath;
-                cout << endl;
+                cout << endl << endl;
                 if (modPath[modPath.size()-1] != '/')
                     modPath.append("/");
                 dir  = opendir(modPath.c_str());
@@ -718,16 +744,25 @@ class Init {
         */
         vector<string> getModulesList(int& modNum) {
             vector<string> modList = {""};
-            cout << modList[0] << endl;
             while ((pDir = readdir(dir)) != NULL) {
                 if (string(pDir->d_name).find(".xml") == string::npos)
                     continue; 
-                modList.push_back(string(pDir->d_name));
+                if (modList[0] == "")
+                    modList[0] = string(pDir->d_name);
+                else 
+                    modList.push_back(string(pDir->d_name));
                 modNum++;
             }             
             return modList;
         }
 };
+
+/* 
+ * Catching CTRL+C 
+ */ 
+void signal_callback_handler(int sig) {
+   cout << endl << "Type 'exit' to quit. :(" << endl;
+}
 
 /*
  * Start program
@@ -744,13 +779,18 @@ int main(int argc, char* argv[]) {
     cout << "*   Author: Simone Contorno    *" << endl;
     cout << "*                              *" << endl;
     cout << "********************************" << endl << endl;
+    cout << "IMPORTANT: to monitor yarpmanager-console2 open another terminal and run yarpmanager-printer." << endl << endl;
+    
+    /* Register signal and signal handler */
+    signal(SIGINT, signal_callback_handler);
 
-    /* Sypply data */
+    /* Supply data */
     string portName;
     cout << "Please supply a port name for the Console: ";
     cin >> portName;
     if (portName.at(0) != '/')
         portName = "/" + portName;
+    cout << endl;
 
     /* Reading Applications path */ 
     string appPath = objInit.getApplicationsPath();
