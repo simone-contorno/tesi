@@ -72,18 +72,18 @@ class Printer {
             system(command.c_str());
             
             cout << "Printer is running..." << endl; 
-            cout << endl << "**************************************************" << endl << endl;
+            cout << endl << "**************************************************" << endl;
         
             /* Listening on portName */
             while (true) {
-                /* Getting time */ 
+                /* Get time */ 
                 string currentTime = getTime();
                 
-                /* Getting Connection name */ 
+                /* Get Connection name */ 
                 port.read(cmd,true);
                 string connName = getProcessName(cmd);
   
-                /* Printing Connection Message */
+                /* Print Connection Message */
                 printMessage(connName, currentTime, flag, check_flag);
             }
             
@@ -155,8 +155,12 @@ class Printer {
                     cout << endl;
                 cout << "[-] Connection '" << connName << "' closed at: " << currentTime << endl;
             }
-            else 
-                cout << endl << cmd.toString().c_str() << " at: " << currentTime << endl;
+            else {
+                string msg = cmd.toString().c_str();
+                msg = msg.substr(1,msg.size()-2);
+                cout << endl << msg << " at: " << currentTime << endl;
+
+            }
 
             check_flag = flag;
         }
@@ -171,7 +175,7 @@ int main(int argc, char* argv[]) {
     cout << "********************************" << endl;
     cout << "*                              *" << endl;
     cout << "*        Yarp Manager          *" << endl;   
-    cout << "*       Message Printer        *" << endl;                  
+    cout << "*    yarpmanager-printer       *" << endl;                  
     cout << "*   Author: Simone Contorno    *" << endl;
     cout << "*                              *" << endl;
     cout << "********************************" << endl << endl;
@@ -184,12 +188,14 @@ int main(int argc, char* argv[]) {
     cin >> portNamePrinter;
     if (portNamePrinter.at(0) != '/')
         portNamePrinter = "/" + portNamePrinter;
+    cout << endl;
 
     cout << "What is the name of the Console's port? ";
     cin >> portNameConsole;
     if (portNameConsole.at(0) != '/')
         portNameConsole = "/" + portNameConsole;
-
+    cout << endl;
+    
     /* Call Printer */
     Printer objPrinter;
     objPrinter.messagePrinter(portNamePrinter, portNameConsole);
