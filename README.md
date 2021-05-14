@@ -1,4 +1,4 @@
-#Thesis - Software Engineering (UniGe)
+Thesis - Software Engineering (UniGe)
 
 YarpManager: yarpmanager-console2 and yarpmanager-printer implementation.
 
