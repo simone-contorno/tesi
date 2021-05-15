@@ -35,6 +35,9 @@
 #include <ctime>
 #include <sys/types.h>
 #include <dirent.h>
+#include <signal.h>
+
+#define SIGINT 2
 
 using yarp::os::Bottle;
 using yarp::os::Network;
@@ -61,9 +64,14 @@ class Printer {
         char* szAppName = nullptr;
         int flag = -1;
         int check_flag = -1;
+        string portNameP = "";
+        string portNameC = "";
     public: 
         void messagePrinter(string portNamePrinter, string portNameConsole) {
-            
+
+            portNameP = portNamePrinter;
+            portNameC = portNameConsole;
+
             /* Opening portNamePrinter and connect with /root and /portNameConsole */
             port.open(portNamePrinter);
             command = "yarp connect " + portNameConsole + " " + portNamePrinter;
@@ -164,7 +172,29 @@ class Printer {
 
             check_flag = flag;
         }
+
+        /*
+         * Closing port and exit
+         */
+        void close() {
+            cout << "Closing port and connections..." << endl;
+            port.close();
+            cout << endl << "Bye. :)" << endl << endl;
+
+            exit(0);
+        }
 };
+
+/* IMPORTANT */
+Printer objPrinter;
+
+/* 
+ * Catching CTRL+C 
+ */ 
+void signal_callback_handler(int sig) {
+    cout << endl << "Catch CTRL+C command." << endl;
+    objPrinter.close();
+}
 
 /*
  * Start program
@@ -179,6 +209,9 @@ int main(int argc, char* argv[]) {
     cout << "*   Author: Simone Contorno    *" << endl;
     cout << "*                              *" << endl;
     cout << "********************************" << endl << endl;
+
+    /* Register signal and signal handler */
+    signal(SIGINT, signal_callback_handler);
 
     /* Sypply data */
     string portNamePrinter;
@@ -197,7 +230,6 @@ int main(int argc, char* argv[]) {
     cout << endl;
     
     /* Call Printer */
-    Printer objPrinter;
     objPrinter.messagePrinter(portNamePrinter, portNameConsole);
 
     return 0;
