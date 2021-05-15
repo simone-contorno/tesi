@@ -74,7 +74,7 @@ class Console {
 
             cout << endl << "Console is running..." << endl;
             cout << endl << "**************************************************" << endl;
-            cout << endl << "Type 'help' to see all avaiable commands." << endl;
+            cout << endl << "Type 'help' to see all avaiable commands." << endl << endl;
 
             int esc = 0;
             while (true) {
@@ -97,10 +97,10 @@ class Console {
             bool check = false;
             int IDs = -1;
             const std::string directorySeparator{yarp::conf::filesystem::preferred_separator};
-            
+
             /* Get instruction */
             getline(cin,in);
-            
+
             /* Parse instruction */
             int j = 0;
             int flag = 0;
@@ -122,7 +122,8 @@ class Console {
                 }
             }
 
-            cout << endl;
+            if (in != "")
+                cout << endl;
 
             /*
              * Help
@@ -158,7 +159,7 @@ class Console {
              */
             else if (instr[0] == "exit") {
                 do {
-                    cout << "If some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
+                    cout << "WARNING: if some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
                     cin >> in;
                     if (in == "y") {
                         manager.stop();
@@ -222,7 +223,7 @@ class Console {
                     cout<< "(" << id++ << ") " << mod->getName() 
                         << " [" << fname << "]" << endl;
                 }
-                */
+                */                
  
                 cout << "Applications list (" << appNum << "): " << endl;
                 for (int i = 0; i < appList.size(); i++) {
@@ -265,7 +266,7 @@ class Console {
             /*
              * add mod
              */
-            else if (instr[0] == "add" && instr[1] == "mod") {
+            else if (instr[0] == "add" && instr[1] == "mod" && instr[2] != "") {
                 fileName = instr[2];
                 check = manager.addModule((modPath+fileName).c_str());
                 if (check == 1)
@@ -277,7 +278,7 @@ class Console {
             /*
              * add app
              */ 
-            else if (instr[0] == "add" && instr[1] == "app") {
+            else if (instr[0] == "add" && instr[1] == "app" && instr[2] != "") {
                 fileName = instr[2];
                 check = manager.addApplication((appPath+fileName).c_str(), &szAppName, true);
                 if (check == 1)
@@ -289,7 +290,7 @@ class Console {
             /*
              * add res
              */
-            else if (instr[0] == "add" && instr[1] == "res") {
+            else if (instr[0] == "add" && instr[1] == "res" && instr[2] != "") {
                 /*
                 fileName = instr[2];
                 check = manager.addResource((resPath+fileName).c_str());
@@ -509,6 +510,7 @@ class Console {
                 }
                 */
             }
+
             /*
              * get
              */
@@ -558,8 +560,12 @@ class Console {
                     cout << "Instruction not valid, type 'help' for more informations about it." << endl;
     
             reportErrors();
-            if (esc == 0)
-                cout << endl << ">> ";
+            if (esc == 0) {
+                if (in != "")
+                    cout << endl << ">> ";
+                else 
+                    cout << ">> ";
+            }
         }
 
         /*
