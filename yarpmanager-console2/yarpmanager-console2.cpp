@@ -60,7 +60,13 @@ class Console {
         Bottle cmd;
         Manager manager;
         Executable* exec;
-        ExecutablePContainer modules;    
+        ExecutablePContainer modules;  
+        ExecutablePIterator moditr;  
+        CnnContainer connections;
+        CnnIterator cnnitr;
+        ResourcePIterator itrS;
+        KnowledgeBase* kb;
+        ErrorLogger* logger;
         
         string cyanColor = "\033[96m";
         string blueColor = "\033[94m";
@@ -175,7 +181,7 @@ class Console {
              */
             else if (instr[0] == "exit") {
                 do {
-                    cout << yellowColor << "WARNING:" << endColor << " if some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
+                    cout << yellowColor << "WARNING:" << endColor << " If some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
                     cin >> in;
                     if (in == "y") {
                         manager.stop();
@@ -214,7 +220,7 @@ class Console {
                 cout << "Modules list (" << modNum << "): " << endl;
                 for (int i = 0; i < modList.size(); i++) {
                     if (modList[i] == "") continue;
-                    cout << "(" << i << ") " << modList[i] << endl;
+                    cout << "(" << i << ") " << blueColor << modList[i] << endColor << endl;
                 }  
             }
             
@@ -244,7 +250,7 @@ class Console {
                 cout << "Applications list (" << appNum << "): " << endl;
                 for (int i = 0; i < appList.size(); i++) {
                     if (appList[i] == "") continue;
-                    cout << "(" << i << ") " << appList[i] << endl;
+                    cout << "(" << i << ") " << blueColor << appList[i] << endColor << endl;
                 }
             }
             
@@ -286,9 +292,9 @@ class Console {
                 fileName = instr[2];
                 check = manager.addModule((modPath+fileName).c_str());
                 if (check == 1)
-                    cout << "Module " << fileName << " added." << endl;
+                    cout << "Module " << blueColor << fileName << endColor << " added." << endl;
                 else 
-                    cout << "FAIL: Module " << fileName << " did not add." << endl;
+                    cout << yellowColor << "FAIL:" << endColor << " Module " << blueColor << fileName << endColor << " did not add." << endl;
             }
 
             /*
@@ -298,9 +304,9 @@ class Console {
                 fileName = instr[2];
                 check = manager.addApplication((appPath+fileName).c_str(), &szAppName, true);
                 if (check == 1)
-                    cout << "Application " << fileName << " added." << endl;
+                    cout << "Application " << blueColor << fileName << endColor << " added." << endl;
                 else 
-                    cout << "FAIL: Application " << fileName << " did not add." << endl;
+                    cout << yellowColor << "FAIL:" << endColor << " Application " << blueColor << fileName << endColor << " did not add." << endl;
             }
 
             /*
@@ -324,29 +330,31 @@ class Console {
                 fileName = instr[2];
                 check = manager.loadApplication(szAppName);
                 if (check == 1)
-                    cout << "Application " << fileName << " loaded." << endl;
+                    cout << "Application " << blueColor << fileName << endColor << " loaded." << endl;
                 else 
-                    cout << "FAIL: Application " << fileName << " did not load." << endl; 
+                    cout << yellowColor << "FAIL:" << endColor << " Application " << blueColor << fileName << endColor << " did not load." << endl; 
             }
-
+            
             /*
              * run 
              */
             else if (instr[0] == "run") {
+                
                 if (instr[1] != "") {
                     IDs = stoi(instr[1]);
                     check = manager.run(IDs);
                     if (check == 1) {
-                        cout << "IDs " << IDs << " is running." << endl;
+                        cout << "IDs " << blueColor << IDs << endColor << " is running." << endl;
                         msg = yellowColor + "[YMC2-INFO]" + endColor + " Module " + to_string(IDs) + 
                             " of Application " + blueColor + string(manager.getApplicationName()) + endColor + " runned";
                         sendMessage(msg);
                     }
                     else 
-                        cout << "FAIL: IDs " << IDs << " is not running" << endl; 
+                        cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " is not running" << endl; 
                 }
                 else {
                     manager.run();
+                    cout << "Command launched." << endl;
                     msg = yellowColor + "[YMC2-INFO]" + endColor + " Modules of Application " + blueColor + string(manager.getApplicationName()) + endColor + " runned";
                     sendMessage(msg);
                 }
@@ -360,16 +368,17 @@ class Console {
                     IDs = stoi(instr[1]);
                     check = manager.stop(IDs);
                     if (check == 1) {
-                        cout << "IDs " << IDs << " stopped." << endl;
+                        cout << "IDs " << blueColor << IDs << endColor << " stopped." << endl;
                         msg = yellowColor + "[YMC2-INFO]" + endColor + " Module " + to_string(IDs) + 
                             " of Application " + blueColor + string(manager.getApplicationName()) + endColor + " stopped";
                         sendMessage(msg);
                     }
                     else 
-                        cout << "FAIL: IDs " << IDs << " did not stopped." << endl;
+                        cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not stopped." << endl;
                 }
                 else {
                     manager.stop();
+                    cout << "Command launched." << endl;
                     msg = yellowColor + "[YMC2-INFO]" + endColor + " Modules of Application " + blueColor + string(manager.getApplicationName()) + endColor + " stopped";
                     sendMessage(msg);
                 }
@@ -383,16 +392,17 @@ class Console {
                     IDs = stoi(instr[1]);
                     check = manager.kill(IDs);
                     if (check == 1) {
-                        cout << "IDs " << IDs << " killed." << endl;
+                        cout << "IDs " << blueColor << IDs << endColor << " killed." << endl;
                         msg = yellowColor + "[YMC2-INFO]" + endColor + " Module " + to_string(IDs) + 
                             " of Application " + blueColor + string(manager.getApplicationName()) + endColor + " killed";
                         sendMessage(msg);
                     }
                     else 
-                        cout << "FAIL: IDs " << IDs << " did not killed." << endl; 
+                        cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not killed." << endl; 
                 }
                 else {
                     manager.kill();
+                    cout << "Command launched." << endl;
                     msg = yellowColor + "[YMC2-INFO]" + endColor + " Modules of Application " + blueColor + string(manager.getApplicationName()) + endColor + " killed";
                     sendMessage(msg);
                 }
@@ -406,12 +416,14 @@ class Console {
                     IDs = stoi(instr[1]);
                     check = manager.connect(IDs);
                     if (check == 1) 
-                        cout << "IDs " << IDs << " connected." << endl;
+                        cout << "IDs " << blueColor << IDs << endColor << " connected." << endl;
                     else 
-                        cout << "FAIL: IDs " << IDs << " did not connected." << endl; 
+                        cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not connected." << endl; 
                 }
-                else 
+                else {
                     manager.connect();
+                    cout << "Command launched." << endl;
+                }
             }
 
             /*
@@ -422,12 +434,14 @@ class Console {
                     IDs = stoi(instr[1]);
                     check = manager.disconnect(IDs);
                     if (check == 1)
-                        cout << "IDs " << IDs << " disconnected." << endl;
+                        cout << "IDs " << blueColor << IDs << endColor << " disconnected." << endl;
                     else 
-                        cout << "FAIL: IDs " << IDs << " did not disconnected." << endl; 
+                        cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not disconnected." << endl; 
                 }
-                else 
+                else {
                     manager.disconnect();
+                    cout << "Command launched." << endl;
+                }
             }
 
             /*
@@ -438,26 +452,31 @@ class Console {
             }
 
             /*
-             * check depresource endl;
+             * check dep
+             */
+            else if (instr[0] == "check" && instr[1] == "dep") {
+                if (manager.checkDependency())
+                    cout << "All of resource dependencies are satisfied." << endl;
             }
             
             /*
              * check state 
              */
             else if (instr[0] == "check" && instr[1] == "state") {
-                ExecutablePContainer modules = manager.getExecutables();
+                modules = manager.getExecutables();
                 if (instr[2] != "") {
                     IDs = stoi(instr[2]);
-                    if (IDs > modules.size())
-                        cout << "ERROR: Module IDs is out of range." << endl;
 
-                    if (manager.running(IDs)) 
-                        cout << "<RUNNING>" << endl;
-                    else 
-                        cout << "<STOPPED>" << endl;
-                    cout << "(" << IDs << ") [" << modules[IDs]->getHost() << "]" << endl;
+                    if (IDs >= modules.size())
+                        cout << redColor << "ERROR:" << endColor << " Module " << blueColor << IDs << endColor << " is out of range." << endl;
 
-                    check = manager.disconnect(IDs);
+                    else {
+                        if (manager.running(IDs)) 
+                            cout << greenColor << "<RUNNING>" << endColor << endl;
+                        else 
+                            cout << redColor << "<STOPPED>" << endColor << endl;
+                        cout << blueColor << "(" << IDs << ")" << endColor << " [" << modules[IDs]->getHost() << "]" << endl;
+                    }
                 }
                 else 
                     checkStates();
@@ -467,19 +486,21 @@ class Console {
              * check con
              */
             else if (instr[0] == "check" && instr[1] == "con") {
-                CnnContainer connections = manager.getConnections();
+                connections = manager.getConnections();
                 if (instr[2] != "") {
                     IDs = stoi(instr[2]);
-                    
-                    if (IDs > connections.size())
-                        cout << "ERROR: Connection IDs is out of range." << endl;
 
-                    if (manager.connected(IDs)) 
-                        cout << "<CONNECTED>" << endl;
-                    else 
-                        cout << "<DISCONNECTED>" << endl;
-                    cout << "(" << IDs << ") [" << connections[IDs].from() << " - " 
-                        << connections[IDs].to() << " [" << connections[IDs].carrier() << "]" << endl;
+                    if (IDs >= connections.size())
+                        cout << redColor << "ERROR:" << endColor << " Connection " << blueColor << IDs << endColor << " is out of range." << endl;
+                    
+                    else {
+                        if (manager.connected(IDs)) 
+                            cout << greenColor << "<CONNECTED>" << endColor << endl;
+                        else 
+                            cout << redColor << "<DISCONNECTED>" << endColor << endl;
+                        cout << "(" << IDs << ") " << blueColor << connections[IDs].from() << " - " 
+                            << connections[IDs].to() << endColor << " [" << connections[IDs].carrier() << "]" << endl;
+                    }
                 }
                 else 
                     checkConnections();
@@ -544,25 +565,25 @@ class Console {
                 if (check == 1)
                     cout << "Graph exported." << endl;
                 else 
-                    cout << "FAIL: Cannot export graph to " << instr[1] << endl;
+                    cout << yellowColor << "FAIL:" << endColor << " Cannot export graph to " << instr[1] << endl;
             }
 
             /*
              * show mod
              */
             else if (instr[0] == "show" && instr[1] == "mod" && instr[2] != "") {
-                KnowledgeBase* kb = manager.getKnowledgeBase();
+                kb = manager.getKnowledgeBase();
                 check = kb->getModule(instr[2].c_str());
                 if (check == 1)
                     cout << kb->getModule(instr[2].c_str()) << endl;
                 else 
-                    cout << "FAIL: "<< instr[2] << " did not find." << endl;
+                    cout << yellowColor << "FAIL: " << endColor << instr[2] << " did not find." << endl;
             }
 
             /*
              * assign host
              */
-            else if (instr[0] == "assign" && instr[1] != "host") {
+            else if (instr[0] == "assign" && instr[1] == "hosts") {
                 manager.loadBalance();
             }
 
@@ -584,17 +605,15 @@ class Console {
          */
         void which() {
             modules = manager.getExecutables();
-            CnnContainer connections  = manager.getConnections();
-            ExecutablePIterator moditr;
-            CnnIterator cnnitr;
+            connections  = manager.getConnections();
 
-            cout << endl << "Application: " << endl;
-            cout << manager.getApplicationName() << endl;
+            cout << "Application: " << endl;
+            cout << blueColor << manager.getApplicationName() << endColor << endl;
 
             cout << endl << "Modules: " << endl;
             int id = 0;
             for (moditr = modules.begin(); moditr < modules.end(); moditr++) {
-                cout << "(" << id++ << ") " << (*moditr)->getCommand();
+                cout << "(" << id++ << ") " << blueColor << (*moditr)->getCommand() << endColor;
                 cout << " [" << (*moditr)->getHost() << "] [" << (*moditr)->getParam() << "]";
                 cout << " [" << (*moditr)->getEnv() << "]" << endl;
             }
@@ -602,19 +621,17 @@ class Console {
             id = 0;
             for (cnnitr = connections.begin(); cnnitr < connections.end(); cnnitr++) {
                 cout << "(" << id++ << ") ";
-                cout << (*cnnitr).from() << " - " << (*cnnitr).to();
+                cout << blueColor << (*cnnitr).from() << " - " << (*cnnitr).to() << endColor;
                     cout<<" [" << (*cnnitr).carrier() << "]";
                 cout << endl;
             }
 
             cout << endl << "Resources:" << endl;
             id = 0;
-            ResourcePIterator itrS;
             for (itrS = manager.getResources().begin(); itrS != manager.getResources().end(); itrS++) {
                 cout << "(" << id++ << ") ";
-                cout << (*itrS)->getName() << " [" << (*itrS)->getTypeName() << "]" << endl;
+                cout << blueColor << (*itrS)->getName() << endColor << " [" << (*itrS)->getTypeName() << "]" << endl;
             }
-            cout << endl;
         }
 
         /*
@@ -622,17 +639,16 @@ class Console {
          */
         void checkStates() {
             modules = manager.getExecutables();
-            ExecutablePIterator moditr;
             unsigned int id = 0;
             bool bShouldRun = false;
             for (moditr = modules.begin(); moditr < modules.end(); moditr++) {
                 if (manager.running(id)) {
                     bShouldRun = true;
-                    cout << "<RUNNING> ";
+                    cout << greenColor << "<RUNNING> " << endColor;
                 }
                 else
-                    cout << "<STOPPED> ";
-                cout << "(" << id << ") " << (*moditr)->getCommand();
+                    cout << redColor << "<STOPPED> " << endColor;
+                cout << "(" << id << ") " << blueColor << (*moditr)->getCommand() << endColor;
                 cout << " [" << (*moditr)->getHost() << "]" << endl;
                 id++;
             }
@@ -642,17 +658,16 @@ class Console {
          * Check connections
          */ 
         void checkConnections() {
-            CnnContainer connections = manager.getConnections();
-            CnnIterator cnnitr;
+            connections = manager.getConnections();
             int id = 0;
             for (cnnitr = connections.begin(); cnnitr < connections.end(); cnnitr++) {
                 if (manager.connected(id))
-                    cout << "<CONNECTED> ";
+                    cout << greenColor << "<CONNECTED> " << endColor;
                 else
-                    cout << "<DISCONNECTED> ";
+                    cout << redColor << "<DISCONNECTED> " << endColor;
 
-                cout << "(" << id << ") " << (*cnnitr).from() << " - " << (*cnnitr).to();
-                cout << " [" << (*cnnitr).carrier() << "]" << endl;
+                cout << "(" << id << ") " << blueColor << (*cnnitr).from() << " - " << (*cnnitr).to();
+                cout << endColor << " [" << (*cnnitr).carrier() << "]" << endl;
                 id++;
             }
         }
@@ -661,7 +676,7 @@ class Console {
          * Getting errors
          */
         void reportErrors() {
-            ErrorLogger* logger  = ErrorLogger::Instance();
+            logger  = ErrorLogger::Instance();
             if(logger->errorCount() || logger->warningCount()) {
                 const char* msg;
                 while ((msg = logger->getLastError()))
@@ -696,22 +711,24 @@ class Init {
          * Applications path
          */
         string getApplicationsPath() {
-            string appPath = "/usr/share/yarp/applications/";
-            //string appPath;
+            string appPath;
+            //appPath = "/usr/share/yarp/applications/";
         
             while (true) {
                 cout << "Please supply the path to manager applications: ";
-                //cin >> appPath;
-                cout << endl << endl;
+                cin >> appPath;
                 if (appPath[appPath.size()-1] != '/')
                     appPath.append("/");
+                if (appPath[0] != '/')
+                    appPath = "/" + appPath;
                 dir  = opendir(appPath.c_str());
                 if (dir == NULL) {
-                    cout << "Directory: " << dir << " not found" << endl;
+                    cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << appPath << "\033[0m" << " not found." << endl;
                     continue;
                 }
                 else break;
             }
+            cout << endl;
             return appPath;
         }
         
@@ -737,22 +754,24 @@ class Init {
          * Modules path 
          */
         string getModulesPath() {
-            string modPath = "/usr/share/yarp/modules/";
-            //string modPath;
+            string modPath;
+            //modPath = "/usr/share/yarp/modules/";
 
             while (true) {
                 cout << "Please supply the path to manager modules: ";
-                //cin >> modPath;
-                cout << endl << endl;
+                cin >> modPath;
                 if (modPath[modPath.size()-1] != '/')
                     modPath.append("/");
+                if (modPath[0] != '/')
+                    modPath = "/" + modPath;
                 dir  = opendir(modPath.c_str());
                 if (dir == NULL) {
-                    cout << "Directory: " << dir << " not found" << endl;
+                    cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << modPath << "\033[0m" << " not found." << endl;
                     continue;
                 }
                 else break;
             }
+            cout << endl;
             return modPath;
         }
 
@@ -787,6 +806,7 @@ void signal_callback_handler(int sig) {
 int main(int argc, char* argv[]) {
     
     Init objInit;
+    Console objConsole;
 
     /* Start message */
     cout << "\033[96m" << endl;
@@ -830,7 +850,6 @@ int main(int argc, char* argv[]) {
     vector<string> modList = objInit.getModulesList(modNum);
     
     /* Call Console */
-    Console objConsole;
     objConsole.messageConsole(portName, appNum, appPath, appList, modNum, modPath, modList);
 
     return 0;
