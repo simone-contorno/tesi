@@ -55,7 +55,6 @@ using yarp::os::BufferedPort;
 class Console {
     private:
         yarp::os::Network yarp;
-        //RpcServer port;
         BufferedPort<Bottle> port;
         string command;
         Bottle cmd;
@@ -63,6 +62,13 @@ class Console {
         Executable* exec;
         ExecutablePContainer modules;    
         
+        string cyanColor = "\033[96m";
+        string blueColor = "\033[94m";
+        string yellowColor = "\033[93m";
+        string greenColor = "\033[92m";
+        string redColor = "\033[91m";
+        string endColor = "\033[0m";
+
         char* szAppName = nullptr;
 
     public: 
@@ -72,9 +78,9 @@ class Console {
             /* Opening portName */
             port.open(portName);
 
-            cout << endl << "Console is running..." << endl;
-            cout << endl << "**************************************************" << endl;
-            cout << endl << "Type 'help' to see all avaiable commands." << endl << endl;
+            cout << endl << cyanColor << "Console is running..." << endColor << endl;
+            cout << endl << cyanColor << "**************************************************" << endColor << endl;
+            cout << endl << "Type '" << greenColor << "help" << endColor << "' to see all avaiable commands." << endl << endl;
 
             int esc = 0;
             while (true) {
@@ -126,32 +132,42 @@ class Console {
                 cout << endl;
 
             /*
+            HEADER = "\033[01;35m";
+            OKBLUE = "\033[34m";
+            OKGREEN = "\033[32m";
+            WARNING = "\033[33m";
+            FAIL = "\033[31m";
+            INFO = "\033[0m";
+            ENDC = "\033[0m";
+            */
+
+            /*
              * Help
              */
             if (instr[0] == "help") {
-                cout << "help                   : show help." << endl;
-                cout << "exit                   : exit printer." << endl;
-                cout << "list mod               : list available modules." << endl;
-                cout << "list app               : list available application" << endl;
-                cout << "list res               : list available resources." << endl;
-                cout << "add mod <filename>     : add a module from its description file." << endl;
-                cout << "add app <filename>     : add an application from its description file." << endl;
-                cout << "add res <filename>     : add resources from a description file." << endl;
-                cout << "load app <application> : load an application to run." << endl;
-                cout << "run [IDs]              : run application or a modules indicated by IDs." << endl;
-                cout << "stop [IDs]             : stop running application or modules indicated by IDs." << endl;
-                cout << "kill [IDs]             : kill running application or modules indicated by IDs." << endl;
-                cout << "connect [IDs]          : stablish all connections or just one connection indicated by IDs." << endl;
-                cout << "disconnect [IDs]       : remove all connections or just one connection indicated by IDs." << endl;
-                cout << "which                  : list loaded modules, connections and resource dependencies." << endl;
-                cout << "check dep              : check for all resource dependencies." << endl;
-                cout << "check state [id]       : check for running state of application or a module indicated by id." << endl;
-                cout << "check con [id]         : check for all connections state or just one connection indicated by id." << endl;
-                cout << "set <option> <value>   : set value to an option." << endl;
-                cout << "get <option>           : show value of an option." << endl;
-                cout << "export <filename>      : export application's graph as Graphviz dot format." << endl;
-                cout << "show mod <modname>     : display module information (description, input, output,...)." << endl;
-                cout << "assign hosts           : automatically assign modules to proper nodes using load balancer." << endl;
+                cout << greenColor << "help                     " << endColor << " : show help." << endl;
+                cout << greenColor << "exit                     " << endColor << " : exit printer." << endl;
+                cout << greenColor << "list mod                 " << endColor << " : list available modules." << endl;
+                cout << greenColor << "list app                 " << endColor << " : list available application" << endl;
+                cout << greenColor << "list res                 " << endColor << " : list available resources." << endl;
+                cout << greenColor << "add mod <filename>       " << endColor << " : add a module from its description file." << endl;
+                cout << greenColor << "add app <filename>       " << endColor << " : add an application from its description file." << endl;
+                cout << greenColor << "add res <filename>       " << endColor << " : add resources from a description file." << endl;
+                cout << greenColor << "load app <application>   " << endColor << " : load an application to run." << endl;
+                cout << greenColor << "run [IDs]                " << endColor << " : run application or a modules indicated by IDs." << endl;
+                cout << greenColor << "stop [IDs]               " << endColor << " : stop running application or modules indicated by IDs." << endl;
+                cout << greenColor << "kill [IDs]               " << endColor << " : kill running application or modules indicated by IDs." << endl;
+                cout << greenColor << "connect [IDs]            " << endColor << " : stablish all connections or just one connection indicated by IDs." << endl;
+                cout << greenColor << "disconnect [IDs]         " << endColor << " : remove all connections or just one connection indicated by IDs." << endl;
+                cout << greenColor << "which                    " << endColor << " : list loaded modules, connection and resource dependencies." << endl;
+                cout << greenColor << "check dep                " << endColor << " : check for all resource dependencies." << endl;
+                cout << greenColor << "check state [id]         " << endColor << " : check for running state of application or a module indicated by id." << endl;
+                cout << greenColor << "check con [id]           " << endColor << " : check for all connections state or just one connection indicated by id." << endl;
+                cout << greenColor << "set <option> <value>     " << endColor << " : set value to an option." << endl;
+                cout << greenColor << "get <option>             " << endColor << " : show value of an option." << endl;
+                cout << greenColor << "export <filename>        " << endColor << " : export application's graph as Graphviz dot format." << endl;
+                cout << greenColor << "show mod <modname>       " << endColor << " : display module information (description, input, output,...)." << endl;
+                cout << greenColor << "assign hosts             " << endColor << " : automatically assign modules to proper nodes using load balancer." << endl;
             }        
 
             /*
@@ -159,7 +175,7 @@ class Console {
              */
             else if (instr[0] == "exit") {
                 do {
-                    cout << "WARNING: if some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
+                    cout << yellowColor << "WARNING:" << endColor << " if some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
                     cin >> in;
                     if (in == "y") {
                         manager.stop();
@@ -167,7 +183,7 @@ class Console {
                         manager.disconnect();
                         port.close();
                         esc = 1;
-                        cout << endl << "Bye. :)" << endl << endl;
+                        cout << endl << cyanColor << "Bye. :)" << endColor << endl << endl;
                     }
                 } while (in != "y" && in != "n");
             }
@@ -322,8 +338,8 @@ class Console {
                     check = manager.run(IDs);
                     if (check == 1) {
                         cout << "IDs " << IDs << " is running." << endl;
-                        msg = "[YMC2-INFO] Module " + to_string(IDs) + 
-                            " of Application " + string(manager.getApplicationName()) + " runned";
+                        msg = yellowColor + "[YMC2-INFO]" + endColor + " Module " + to_string(IDs) + 
+                            " of Application " + blueColor + string(manager.getApplicationName()) + endColor + " runned";
                         sendMessage(msg);
                     }
                     else 
@@ -331,7 +347,7 @@ class Console {
                 }
                 else {
                     manager.run();
-                    msg = "[YMC2-INFO] Modules of Application " + string(manager.getApplicationName()) + " runned";
+                    msg = yellowColor + "[YMC2-INFO]" + endColor + " Modules of Application " + blueColor + string(manager.getApplicationName()) + endColor + " runned";
                     sendMessage(msg);
                 }
             }
@@ -345,8 +361,8 @@ class Console {
                     check = manager.stop(IDs);
                     if (check == 1) {
                         cout << "IDs " << IDs << " stopped." << endl;
-                        msg = "[YMC2-INFO] Module " + to_string(IDs) + 
-                            " of Application " + string(manager.getApplicationName()) + " stopped";
+                        msg = yellowColor + "[YMC2-INFO]" + endColor + " Module " + to_string(IDs) + 
+                            " of Application " + blueColor + string(manager.getApplicationName()) + endColor + " stopped";
                         sendMessage(msg);
                     }
                     else 
@@ -354,7 +370,7 @@ class Console {
                 }
                 else {
                     manager.stop();
-                    msg = "[YMC2-INFO] Modules of Application " + string(manager.getApplicationName()) + " stopped";
+                    msg = yellowColor + "[YMC2-INFO]" + endColor + " Modules of Application " + blueColor + string(manager.getApplicationName()) + endColor + " stopped";
                     sendMessage(msg);
                 }
             }
@@ -368,8 +384,8 @@ class Console {
                     check = manager.kill(IDs);
                     if (check == 1) {
                         cout << "IDs " << IDs << " killed." << endl;
-                        msg = "[YMC2-INFO] Module " + to_string(IDs) + 
-                            " of Application " + string(manager.getApplicationName()) + " killed";
+                        msg = yellowColor + "[YMC2-INFO]" + endColor + " Module " + to_string(IDs) + 
+                            " of Application " + blueColor + string(manager.getApplicationName()) + endColor + " killed";
                         sendMessage(msg);
                     }
                     else 
@@ -377,7 +393,7 @@ class Console {
                 }
                 else {
                     manager.kill();
-                    msg = "[YMC2-INFO] Modules of Application " + string(manager.getApplicationName()) + " killed";
+                    msg = yellowColor + "[YMC2-INFO]" + endColor + " Modules of Application " + blueColor + string(manager.getApplicationName()) + endColor + " killed";
                     sendMessage(msg);
                 }
             }
@@ -422,12 +438,7 @@ class Console {
             }
 
             /*
-             * check dep
-             */
-            else if (instr[0] == "check" && instr[1] == "dep") {
-                check = manager.checkDependency();
-                if (check == 1)
-                    cout << "All of resource dependencies are satisfied." << endl;
+             * check depresource endl;
             }
             
             /*
@@ -557,14 +568,14 @@ class Console {
 
             else 
                 if (flag == 1)
-                    cout << "Instruction not valid, type 'help' for more informations about it." << endl;
+                    cout << "Instruction not valid, type '" << greenColor << "help" << endColor << "' for more informations about it." << endl;
     
             reportErrors();
             if (esc == 0) {
                 if (in != "")
-                    cout << endl << ">> ";
+                    cout << endl << greenColor << ">> " << endColor;
                 else 
-                    cout << ">> ";
+                    cout << greenColor << ">> " << endColor;
             }
         }
 
@@ -654,10 +665,10 @@ class Console {
             if(logger->errorCount() || logger->warningCount()) {
                 const char* msg;
                 while ((msg = logger->getLastError()))
-                    cout << "ERROR: " << msg << endl;
+                    cout << redColor << "ERROR: " << endColor << msg << endl;
 
                 while ((msg = logger->getLastWarning()))
-                    cout << "WARNING: " << msg << endl;
+                    cout << yellowColor << "WARNING: " << endColor << msg << endl;
             }
         }
 
@@ -767,7 +778,7 @@ class Init {
  * Catching CTRL+C 
  */ 
 void signal_callback_handler(int sig) {
-   cout << endl << "Type 'exit' to quit. :(" << endl;
+   cout << endl << "Type '" << "\033[92m" << "exit" << "\033[0m" << "' to quit. :(" << endl;
 }
 
 /*
@@ -778,14 +789,16 @@ int main(int argc, char* argv[]) {
     Init objInit;
 
     /* Start message */
+    cout << "\033[96m" << endl;
     cout << "********************************" << endl;
     cout << "*                              *" << endl;
     cout << "*        Yarp Manager          *" << endl;   
     cout << "*    yarpmanager-console2      *" << endl;                  
     cout << "*   Author: Simone Contorno    *" << endl;
     cout << "*                              *" << endl;
-    cout << "********************************" << endl << endl;
-    cout << "IMPORTANT: to monitor yarpmanager-console2 open another terminal and run yarpmanager-printer." << endl << endl;
+    cout << "********************************" << endl;
+    cout << "\033[0m" << endl;
+    cout << "\033[93m" << "IMPORTANT:" << "\033[0m" << " to monitor yarpmanager-console2 open another terminal and run yarpmanager-printer." << endl << endl;
     
     /* Register signal and signal handler */
     signal(SIGINT, signal_callback_handler);
@@ -794,6 +807,10 @@ int main(int argc, char* argv[]) {
     string portName;
     cout << "Please supply a port name for the Console: ";
     cin >> portName;
+    if (portName.find("exit") != string::npos) {
+        cout << endl << "\033[96m" << "Bye. :)" << "\033[0m" << endl << endl;
+        return 0;
+    }
     if (portName.at(0) != '/')
         portName = "/" + portName;
     cout << endl;
