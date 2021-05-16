@@ -66,6 +66,13 @@ class Printer {
         int check_flag = -1;
         string portNameP = "";
         string portNameC = "";
+
+        string cyanColor = "\033[96m";
+        string blueColor = "\033[94m";
+        string yellowColor = "\033[93m";
+        string greenColor = "\033[92m";
+        string redColor = "\033[91m";
+        string endColor = "\033[0m";
     public: 
         void messagePrinter(string portNamePrinter, string portNameConsole) {
 
@@ -79,8 +86,8 @@ class Printer {
             command = "yarp connect /root " + portNamePrinter;
             system(command.c_str());
             
-            cout << "Printer is running..." << endl; 
-            cout << endl << "**************************************************" << endl;
+            cout << cyanColor << "Printer is running..." << endColor << endl; 
+            cout << endl << cyanColor << "**************************************************" << endColor << endl;
         
             /* Listening on portName */
             while (true) {
@@ -155,18 +162,18 @@ class Printer {
                 flag = 0;
                 if (check_flag != flag)
                     cout << endl;
-                cout << "[+] Connection '" << connName << "' opened at: " << currentTime << endl;
+                cout << greenColor << "[+]" << endColor << " Connection '" << blueColor << connName << endColor << "' opened at: " << blueColor << currentTime << endColor << endl;
             }
             else if (cmd.toString().find("[del]") == 0) {
                 flag = 1;
                 if (check_flag != flag)
                     cout << endl;
-                cout << "[-] Connection '" << connName << "' closed at: " << currentTime << endl;
+                cout << redColor << "[-]" << endColor << " Connection '" << blueColor << connName << endColor << "' closed at: " << blueColor << currentTime << endColor << endl;
             }
             else {
                 string msg = cmd.toString().c_str();
                 msg = msg.substr(1,msg.size()-2);
-                cout << endl << msg << " at: " << currentTime << endl;
+                cout << endl << msg << " at: " << blueColor << currentTime << blueColor << endl;
 
             }
 
@@ -179,7 +186,7 @@ class Printer {
         void close() {
             cout << "Closing port and connections..." << endl;
             port.close();
-            cout << endl << "Bye. :)" << endl << endl;
+            cout << endl << cyanColor << "Bye. :)" << endColor << endl << endl;
 
             exit(0);
         }
@@ -202,13 +209,15 @@ void signal_callback_handler(int sig) {
 int main(int argc, char* argv[]) {
 
     /* Start message */
+    cout << "\033[96m" << endl;
     cout << "********************************" << endl;
     cout << "*                              *" << endl;
     cout << "*        Yarp Manager          *" << endl;   
     cout << "*    yarpmanager-printer       *" << endl;                  
     cout << "*   Author: Simone Contorno    *" << endl;
     cout << "*                              *" << endl;
-    cout << "********************************" << endl << endl;
+    cout << "********************************" << endl;
+    cout << "\033[0m" << endl;
 
     /* Register signal and signal handler */
     signal(SIGINT, signal_callback_handler);
