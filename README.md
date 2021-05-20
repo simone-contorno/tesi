@@ -1,6 +1,6 @@
 YARP - Yet Another Robot Platform
 
-YarpManager: yarpmanager-console2 aimplementation.
+YarpManager: yarpmanager-console2 implementation.
  
 Thesis - Computer Engineering (UniGe)
 
