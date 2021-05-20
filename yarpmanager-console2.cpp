@@ -76,7 +76,7 @@ class Console {
                                     int resNum, string resPath, vector<string> resList) {
             
             cout << endl << cyanColor << "Console is running..." << endColor << endl;
-            cout << endl << "Type '" << greenColor << "help" << endColor << "' to see all avaiable commands." << endl << endl;
+            cout << endl << "Type '" << greenColor << "help" << endColor << "' to see all available commands." << endl << endl;
 
             int esc = 0;
             while (esc == 0) {
@@ -176,7 +176,7 @@ class Console {
                 cout << greenColor << "help                     " << endColor << " : show help." << endl;
                 cout << greenColor << "exit                     " << endColor << " : exit printer." << endl;
                 cout << greenColor << "list mod                 " << endColor << " : list available modules." << endl;
-                cout << greenColor << "list app                 " << endColor << " : list available application" << endl;
+                cout << greenColor << "list app                 " << endColor << " : list available applications." << endl;
                 cout << greenColor << "list res                 " << endColor << " : list available resources." << endl;
                 cout << greenColor << "add mod <filename>       " << endColor << " : add a module from its description file." << endl;
                 cout << greenColor << "add app <filename>       " << endColor << " : add an application from its description file." << endl;
@@ -201,7 +201,7 @@ class Console {
              */
             else if (instr[0] == "exit") {
                 do {
-                    cout << yellowColor << "WARNING:" << endColor << " If some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
+                    cout << yellowColor << "WARNING:" << endColor << " If some modules are running or/and connections are enable, these will be close. Are you sure? [y/n] ";
                     cin >> in;
                     
                     if (in == "y") {
@@ -663,7 +663,7 @@ class Console {
 
             else 
                 if (inNotNull == 1)
-                    cout << "Instruction not valid, type '" << greenColor << "help" << endColor << "' for more informations about it." << endl;
+                    cout << "Instruction not valid, type '" << greenColor << "help" << endColor << "' for more details." << endl;
     
             reportErrors();
             if (in != "")
@@ -1192,17 +1192,9 @@ void checkStatus() {
                 if (bShoulConnect == false) {
                     cout << endl << redColor << "ERROR: " << endColor << "Connection " << id 
                         << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
-                        << " disconnected: " << blueColor << obj.getTime() << endColor << endl;
+                        << " disconnected at: " << blueColor << obj.getTime() << endColor << endl;
                     
                     stateConnections[id] = false;
-                }
-
-                else if (bShoulConnect == true) {
-                    cout << endl << redColor << "ERROR: " << endColor << "Connection " << id 
-                        << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
-                        << " connected: " << blueColor << obj.getTime() << endColor << endl;
-                    
-                    stateConnections[id] = true;
                 }
             }          
         }
@@ -1213,7 +1205,7 @@ void checkStatus() {
  * Catch CTRL+C 
  */ 
 void signal_callback_handler(int sig) {
-   cout << endl << "Type '" << "\033[92m" << "exit" << "\033[0m" << "' to quit. :(" << endl;
+   cout << endl << "Type '" << "\033[92m" << "exit" << "\033[0m" << "' to quit. " << "\033[96m" << ":(" << "\033[0m" << endl;
 }
 
 /*
