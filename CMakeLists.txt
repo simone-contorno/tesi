@@ -8,33 +8,32 @@
 # YARP needs CMake 3.0 or greater
 cmake_minimum_required(VERSION 3.12)
  
-# project name
+# Project name
 project(yarpmanager-console2
-VERSION 1.0.0
-LANGUAGES CXX)
+            VERSION 1.0.0
+            LANGUAGES CXX)
 
-# to compile using threads
+# To compile using threads
 if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread")
 endif(CMAKE_COMPILER_IS_GNUCC)
 
-# find packages
+# Find packages
 find_package(YARP)
 find_package(YARP COMPONENTS os REQUIRED)
 find_package(YCM 0.11 REQUIRED)
 find_package(YARP COMPONENTS os manager dev REQUIRED)
 find_package(Threads REQUIRED)
 
-# set up our program
+# Set up program
 add_executable(yarpmanager-console2)
  
-# declare our source files
+# Declare source files
 target_sources(yarpmanager-console2 PRIVATE yarpmanager-console2.cpp)
  
-# link with libraries                                    
-target_link_libraries(yarpmanager-console2 PRIVATE 
-                                YARP::YARP_os
-                                YARP::YARP_init 
-                                YARP::YARP_manager
-                                Threads::Threads)
+# Link with libraries                                    
+target_link_libraries(yarpmanager-console2 PRIVATE YARP::YARP_os
+                                                   YARP::YARP_init 
+                                                   YARP::YARP_manager
+                                                   Threads::Threads)
                     

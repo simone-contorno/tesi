@@ -42,15 +42,17 @@ using namespace yarp::os;
 using namespace yarp::os::impl;
 using namespace yarp::manager;
 
-/*
- * Start Console
- */ 
+
+/* Global variables */
 Manager manager;
 ExecutablePContainer modules;  
 CnnContainer connections;
 vector<bool> stateModules = {false};
 vector<bool> stateConnections = {false};
 
+/*
+ * Start Console
+ */ 
 class Console {
     private:
         ExecutablePIterator moditr;  
@@ -83,24 +85,25 @@ class Console {
         }
         
         /*
-         * Getting input
+         * Get input
          */
         void getInput(int appNum, string appPath, vector<string> appList,
                             int modNum, string modPath, vector<string> modList, 
                                 int resNum, string resPath, vector<string> resList, int& esc) {
             /* Variables */
-            string fileName = "";
             string in = "";
-            string msg = "";
+            string fileName = "";
             string instr[4] = {"", "", "", ""};
-            bool check = false;
             int IDs = -1;
+            bool check = false;
+
             const std::string directorySeparator{yarp::conf::filesystem::preferred_separator};
 
             /* Build stateModules and stateConnections */
             if (build == true) {
                 stateModules = {false};
                 modules = manager.getExecutables();
+
                 for (int id = 0; id < modules.size(); id++) {
                     if (manager.running(id)) {
                         if (id == 0) 
@@ -130,6 +133,7 @@ class Console {
                             stateConnections.push_back(false);
                     }
                 }
+
                 build = false;
             }
 
@@ -140,17 +144,17 @@ class Console {
              * Parse instruction 
              */
             int j = 0;
-            int flag = 0;
+            int inNotNull = 0;
             
             /* Check if string is != null */ 
             for (int i = 0; i < in.length(); i++) {
                 if (in.at(i) != ' ') {
-                    flag = 1;
+                    inNotNull = 1;
                     break;
                 }
             }
 
-            if (flag == 1) {
+            if (inNotNull == 1) {
                 for (int i = 0; j < 3 && i < in.length(); i++) {
                     if (in.at(i) == ' ') {
                         while (i < in.length() && in.at(i) == ' ')
@@ -199,6 +203,7 @@ class Console {
                 do {
                     cout << yellowColor << "WARNING:" << endColor << " If some modules are running or/and connections are enable, these will be closed. Are you sure? [y/n] ";
                     cin >> in;
+                    
                     if (in == "y") {
                         manager.stop();
                         manager.kill();
@@ -207,10 +212,12 @@ class Console {
                         cout << endl << cyanColor << "Bye. :)" << endColor << endl << endl;
                         return;
                     }
+
                     else if (in == "n") {
                         cout << endl;
                         return;
                     }
+
                     else 
                         cout << "Please type 'y' or 'n' to answer." << endl;
                 } while (in != "y" && in != "n");
@@ -221,8 +228,10 @@ class Console {
              */
             else if (instr[0] == "list" && instr[1] == "mod") {                
                 cout << "Modules list (" << modNum << "): " << endl;
+
                 for (int i = 0; i < modList.size(); i++) {
-                    if (modList[i] == "") continue;
+                    if (modList[i] == "") 
+                        continue;
                     cout << "(" << i << ") " << blueColor << modList[i] << endColor << endl;
                 }  
             }
@@ -232,8 +241,10 @@ class Console {
              */
             else if (instr[0] == "list" && instr[1] == "app") {      
                 cout << "Applications list (" << appNum << "): " << endl;
+                
                 for (int i = 0; i < appList.size(); i++) {
-                    if (appList[i] == "") continue;
+                    if (appList[i] == "") 
+                        continue;
                     cout << "(" << i << ") " << blueColor << appList[i] << endColor << endl;
                 }
             }
@@ -243,8 +254,10 @@ class Console {
              */
             else if (instr[0] == "list" && instr[1] == "res") {
                 cout << "Resources list (" << resNum << "): " << endl;
+                
                 for (int i = 0; i < resList.size(); i++) {
-                    if (resList[i] == "") continue;
+                    if (resList[i] == "") 
+                        continue;
                     cout << "(" << i << ") " << blueColor << resList[i] << endColor << endl;
                 }
             }
@@ -255,10 +268,12 @@ class Console {
             else if (instr[0] == "add" && instr[1] == "mod" && instr[2] != "") {
                 fileName = instr[2];
                 check = manager.addModule((modPath+fileName).c_str());
+                
                 if (check == 1)
                     cout << "Module " << blueColor << fileName << endColor << " added." << endl;
                 else 
                     cout << yellowColor << "FAIL:" << endColor << " Module " << blueColor << fileName << endColor << " did not add." << endl;
+                
                 build = true;
             }
 
@@ -268,6 +283,7 @@ class Console {
             else if (instr[0] == "add" && instr[1] == "app" && instr[2] != "") {
                 fileName = instr[2];
                 check = manager.addApplication((appPath+fileName).c_str(), &szAppName, true);
+
                 if (check == 1)
                     cout << "Application " << blueColor << fileName << endColor << " added." << endl;
                 else 
@@ -280,6 +296,7 @@ class Console {
             else if (instr[0] == "add" && instr[1] == "res" && instr[2] != "") {
                 fileName = instr[2];
                 check = manager.addResource((resPath+fileName).c_str());
+
                 if (check == 1)
                     cout << "Resources " << blueColor << fileName << endColor << " added." << endl;
                 else 
@@ -292,10 +309,12 @@ class Console {
             else if (instr[0] == "load" && instr[1] == "app") {
                 fileName = instr[2];
                 check = manager.loadApplication(szAppName);
+
                 if (check == 1)
                     cout << "Application " << blueColor << fileName << endColor << " loaded." << endl;
                 else 
                     cout << yellowColor << "FAIL:" << endColor << " Application " << blueColor << fileName << endColor << " did not load." << endl;
+                
                 build = true;
             }
             
@@ -307,10 +326,12 @@ class Console {
                     try {
                         IDs = stoi(instr[1]);
                         check = manager.run(IDs);
+
                         if (check == 1) {
                             cout << "IDs " << blueColor << IDs << endColor << " is running." << endl;
                             stateModules[IDs] = true;
                         }
+
                         else 
                             cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " is not running" << endl; 
                         
@@ -336,16 +357,19 @@ class Console {
                     try {
                         IDs = stoi(instr[1]);
                         check = manager.stop(IDs);
+
                         if (check == 1) {
                             cout << "IDs " << blueColor << IDs << endColor << " stopped." << endl;
                             stateModules[IDs] = false;
                         }
+
                         else 
                             cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not stop." << endl;  
                     } catch (exception e) {
                         cout << yellowColor << "WARNING:" << endColor << " check ID number." << endl;
                     }
                 }
+
                 else {
                     manager.stop();
                     cout << "Command launched." << endl;
@@ -363,16 +387,19 @@ class Console {
                     try {
                         IDs = stoi(instr[1]);
                         check = manager.kill(IDs);
+
                         if (check == 1) {
                             cout << "IDs " << blueColor << IDs << endColor << " killed." << endl;
                             stateModules[IDs] = false;
                         }
+
                         else 
                             cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not kill." << endl; 
                     } catch (exception e) {
                         cout << yellowColor << "WARNING:" << endColor << " check ID number." << endl;
                     }
                 }
+
                 else {
                     manager.kill();
                     cout << "Command launched." << endl;
@@ -390,16 +417,19 @@ class Console {
                     try {
                         IDs = stoi(instr[1]);
                         check = manager.connect(IDs);
+
                         if (check == 1) {
                             cout << "IDs " << blueColor << IDs << endColor << " connected." << endl;
                             stateConnections[IDs] = true;
                         }
+
                         else 
                             cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not connect." << endl; 
                     } catch (exception e) {
                         cout << yellowColor << "WARNING:" << endColor << " check ID number." << endl;
                     }
                 }
+
                 else {
                     manager.connect();
                     cout << "Command launched." << endl;
@@ -417,10 +447,12 @@ class Console {
                     try {
                         IDs = stoi(instr[1]);
                         check = manager.disconnect(IDs);
+
                         if (check == 1) {
                             cout << "IDs " << blueColor << IDs << endColor << " disconnected." << endl;
                             stateConnections[IDs] = false;
                         }
+
                         else 
                             cout << yellowColor << "FAIL:" << endColor << " IDs " << blueColor << IDs << endColor << " did not disconnect." << endl; 
                         
@@ -428,6 +460,7 @@ class Console {
                         cout << yellowColor << "WARNING:" << endColor << " ID must be a number." << endl;
                     }
                 }
+
                 else {
                     manager.disconnect();
                     cout << "Command launched." << endl;
@@ -452,25 +485,32 @@ class Console {
                     cout << "All of resource dependencies are satisfied." << endl;
             }
             
+            
             /*
              * check state 
              */
             else if (instr[0] == "check" && instr[1] == "state") {
                 modules = manager.getExecutables();
+                
                 if (instr[2] != "") {
-                    IDs = stoi(instr[2]);
+                    try {
+                        IDs = stoi(instr[2]);
 
-                    if (IDs >= modules.size())
-                        cout << redColor << "ERROR:" << endColor << " Module " << blueColor << IDs << endColor << " is out of range." << endl;
+                        if (IDs >= modules.size())
+                            cout << redColor << "ERROR:" << endColor << " Module " << blueColor << IDs << endColor << " is out of range." << endl;
 
-                    else {
-                        if (manager.running(IDs)) 
-                            cout << greenColor << "<RUNNING>" << endColor << endl;
-                        else 
-                            cout << redColor << "<STOPPED>" << endColor << endl;
-                        cout << blueColor << "(" << IDs << ")" << endColor << " [" << modules[IDs]->getHost() << "]" << endl;
+                        else {
+                            if (manager.running(IDs)) 
+                                cout << greenColor << "<RUNNING>" << endColor << endl;
+                            else 
+                                cout << redColor << "<STOPPED>" << endColor << endl;
+                            cout << blueColor << "(" << IDs << ")" << endColor << " [" << modules[IDs]->getHost() << "]" << endl;
+                        }
+                    } catch (exception e) {
+                        cout << yellowColor << "WARNING:" << endColor << " ID must be a number." << endl;
                     }
                 }
+
                 else 
                     checkStates();
             }
@@ -480,21 +520,27 @@ class Console {
              */
             else if (instr[0] == "check" && instr[1] == "con") {
                 connections = manager.getConnections();
-                if (instr[2] != "") {
-                    IDs = stoi(instr[2]);
 
-                    if (IDs >= connections.size())
-                        cout << redColor << "ERROR:" << endColor << " Connection " << blueColor << IDs << endColor << " is out of range." << endl;
-                    
-                    else {
-                        if (manager.connected(IDs)) 
-                            cout << greenColor << "<CONNECTED>" << endColor << endl;
-                        else 
-                            cout << redColor << "<DISCONNECTED>" << endColor << endl;
-                        cout << "(" << IDs << ") " << blueColor << connections[IDs].from() << " - " 
-                            << connections[IDs].to() << endColor << " [" << connections[IDs].carrier() << "]" << endl;
+                if (instr[2] != "") {
+                    try {
+                        IDs = stoi(instr[2]);
+
+                        if (IDs >= connections.size())
+                            cout << redColor << "ERROR:" << endColor << " Connection " << blueColor << IDs << endColor << " is out of range." << endl;
+                        
+                        else {
+                            if (manager.connected(IDs)) 
+                                cout << greenColor << "<CONNECTED>" << endColor << endl;
+                            else 
+                                cout << redColor << "<DISCONNECTED>" << endColor << endl;
+                            cout << "(" << IDs << ") " << blueColor << connections[IDs].from() << " - " 
+                                << connections[IDs].to() << endColor << " [" << connections[IDs].carrier() << "]" << endl;
+                        }
+                    } catch (exception e) {
+                        cout << yellowColor << "WARNING:" << endColor << " ID must be a number." << endl;
                     }
                 }
+
                 else 
                     checkConnections();
             }
@@ -508,10 +554,12 @@ class Console {
                         manager.enableWatchDog();
                         cout << "Watchdog enabled." << endl;
                     }
+
                     else if (instr[2] == "no") {
                         manager.disableWatchod();
                         cout << "Watchdog disabled." << endl;
                     }
+
                     else 
                         cout << "Please insert '" << greenColor << "yes" << endColor << "' or '" 
                             << greenColor << "no" << endColor << "' as value for this option." << endl;
@@ -522,10 +570,12 @@ class Console {
                         manager.enableAutoDependency();
                         cout << "Auto dependency enabled." << endl;
                     }
+
                     else if (instr[2] == "no") {
                         manager.disableAutoDependency();
                         cout << "Auto dependency disabled." << endl;
                     }
+                    
                     else 
                         cout << "Please insert '" << greenColor << "yes" << endColor << "' or '" 
                             << greenColor << "no" << endColor << "' as value for this option." << endl;
@@ -536,10 +586,12 @@ class Console {
                         manager.enableAutoConnect();
                         cout << "Auto connect enabled." << endl;
                     }
+
                     else if (instr[2] == "no") {
                         manager.disableAutoConnect();
                         cout << "Auto connect disabled." << endl;
                     }
+
                     else 
                         cout << "Please insert '" << greenColor << "yes" << endColor << "' or '" 
                             << greenColor << "no" << endColor << "' as value for this option." << endl;
@@ -554,6 +606,7 @@ class Console {
                         redColor = "\033[31m";
                         cout << "Dark theme selected." << endl;
                     }
+
                     else if (instr[2] == "light") {
                         cyanColor = "\033[96m";
                         blueColor = "\033[94m";
@@ -562,6 +615,7 @@ class Console {
                         redColor = "\033[91m";
                         cout << "Light theme selected." << endl;
                     }
+
                     else if (instr[2] == "none") {
                         cyanColor = "\033[0m";
                         blueColor = "\033[0m";
@@ -570,6 +624,7 @@ class Console {
                         redColor = "\033[0m";
                         cout << "None theme selected." << endl;
                     }
+
                     else 
                         cout << "Please insert a valid color: '" << greenColor << "dark" << endColor 
                                 << "', '" << greenColor << "light" << endColor << "' or '" << greenColor << "none" << endColor << "'." << endl;
@@ -592,6 +647,7 @@ class Console {
              */
             else if (instr[0] == "export" && instr[1] != "") {
                 check = manager.exportDependencyGraph(instr[1].c_str());
+
                 if (check == 1)
                     cout << "Graph exported." << endl;
                 else 
@@ -606,7 +662,7 @@ class Console {
             }
 
             else 
-                if (flag == 1)
+                if (inNotNull == 1)
                     cout << "Instruction not valid, type '" << greenColor << "help" << endColor << "' for more informations about it." << endl;
     
             reportErrors();
@@ -632,6 +688,7 @@ class Console {
                 cout << " [" << (*moditr)->getHost() << "] [" << (*moditr)->getParam() << "]";
                 cout << " [" << (*moditr)->getEnv() << "]" << endl;
             }
+
             cout << endl << "Connections: " << endl;
             id = 0;
             for (cnnitr = connections.begin(); cnnitr < connections.end(); cnnitr++) {
@@ -656,13 +713,16 @@ class Console {
             modules = manager.getExecutables();
             unsigned int id = 0;
             bool bShouldRun = false;
+
             for (moditr = modules.begin(); moditr < modules.end(); moditr++) {
                 if (manager.running(id)) {
                     bShouldRun = true;
                     cout << greenColor << "<RUNNING> " << endColor;
                 }
+
                 else
                     cout << redColor << "<STOPPED> " << endColor;
+
                 cout << "(" << id << ") " << blueColor << (*moditr)->getCommand() << endColor;
                 cout << " [" << (*moditr)->getHost() << "]" << endl;
                 id++;
@@ -675,6 +735,7 @@ class Console {
         void checkConnections() {
             connections = manager.getConnections();
             int id = 0;
+
             for (cnnitr = connections.begin(); cnnitr < connections.end(); cnnitr++) {
                 if (manager.connected(id))
                     cout << greenColor << "<CONNECTED> " << endColor;
@@ -688,12 +749,14 @@ class Console {
         }
 
         /*
-         * Getting errors
+         * Get errors
          */
         void reportErrors() {
             logger  = ErrorLogger::Instance();
+
             if(logger->errorCount() || logger->warningCount()) {
                 const char* msg;
+
                 while ((msg = logger->getLastError()))
                     cout << redColor << "ERROR: " << endColor << msg << endl;
 
@@ -703,7 +766,7 @@ class Console {
         }
 
         /*
-         * Getting Time
+         * Get Time
          */
         string getTime() {
             time_t t = time(0);
@@ -711,6 +774,7 @@ class Console {
             string hour = to_string(temp->tm_hour);
             string min = to_string(temp->tm_min);
             string sec = to_string(temp->tm_sec);
+
             if (hour.length() == 1) hour = "0" + hour;
             if (min.length() == 1) min = "0" + min;
             if (sec.length() == 1) sec = "0" + sec;
@@ -726,8 +790,8 @@ class Init {
     private: 
         DIR* dir = NULL;
         struct dirent* pDir;
-        string configFile = "../ymc2-config.ini";
         string line = "";
+        string configFile = "../ymc2-config.ini";
 
     public:
         /*
@@ -739,13 +803,16 @@ class Init {
             /* If there is the config file */
             if (fopen(configFile.c_str(), "r")) {
                 ifstream fin(configFile);
+
                 if (fin.good()) {
                     while (!fin.eof()) {
                         getline(fin, line);
+
                         if (line.find("appPath") != string::npos) {
                             for (int i = 0; i < line.length(); i++) {
                                 if (line.at(i) == char(34)) {
                                     i++;
+
                                     while (line.at(i) != char(34)) {
                                         appPath += line.at(i);
                                         i++;
@@ -756,18 +823,21 @@ class Init {
                             break;
                         }
                     }
+
                     /* Clearing white spaces */
                     string temp = "";
+
                     for (int i = 0; i < appPath.size(); i++) {
                         if (appPath.at(i) != ' ')
                             temp += appPath.at(i);
                     }
+
                     appPath = temp;
 
                     /* Check empty path */
-                    if (appPath == "") {
-                        dir = NULL;
-                    }
+                    if (appPath == "") 
+                        dir = NULL;            
+
                     else {
                         if (appPath[appPath.size()-1] != '/')
                             appPath.append("/");
@@ -783,10 +853,12 @@ class Init {
                 while (true) {
                     cout << "Please supply the path to manager applications: ";
                     cin >> appPath;
+
                     if (appPath[appPath.size()-1] != '/')
                         appPath.append("/");
                     if (appPath[0] != '/')
                         appPath = "/" + appPath;
+
                     dir  = opendir(appPath.c_str());
                     if (dir == NULL) {
                         cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << appPath << "\033[0m" << " not found." << endl;
@@ -805,6 +877,7 @@ class Init {
         */
         vector<string> getApplicationsList(int& appNum) {
             vector<string> appList = {""};
+
             while ((pDir = readdir(dir)) != NULL) {
                 if (string(pDir->d_name).find(".xml") == string::npos)
                     continue; 
@@ -812,9 +885,10 @@ class Init {
                     appList[0] = string(pDir->d_name);
                 else 
                     appList.push_back(string(pDir->d_name));
+
                 appNum++;
             } 
-            
+
             return appList;
         }
 
@@ -827,13 +901,16 @@ class Init {
             /* If there is the config file */
             if (fopen(configFile.c_str(), "r")) {
                 ifstream fin(configFile);
+
                 if (fin.good()) {
                     while (!fin.eof()) {
                         getline(fin, line);
+
                         if (line.find("modPath") != string::npos) {
                             for (int i = 0; i < line.length(); i++) {
                                 if (line.at(i) == char(34)) {
                                     i++;
+
                                     while (line.at(i) != char(34)) {
                                         modPath += line.at(i);
                                         i++;
@@ -844,18 +921,21 @@ class Init {
                             break;
                         }
                     }
+
                     /* Clearing white spaces */
                     string temp = "";
+
                     for (int i = 0; i < modPath.size(); i++) {
                         if (modPath.at(i) != ' ')
                             temp += modPath.at(i);
                     }
+
                     modPath = temp;
              
                     /* Check empty path */
-                    if (modPath == "") {
+                    if (modPath == "") 
                         dir = NULL;
-                    }
+
                     else {
                         if (modPath[modPath.size()-1] != '/')
                             modPath.append("/");
@@ -871,10 +951,12 @@ class Init {
                 while (true) {
                     cout << "Please supply the path to manager modules: ";
                     cin >> modPath;
+
                     if (modPath[modPath.size()-1] != '/')
                         modPath.append("/");
                     if (modPath[0] != '/')
                         modPath = "/" + modPath;
+
                     dir  = opendir(modPath.c_str());
                     if (dir == NULL) {
                         cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << modPath << "\033[0m" << " not found." << endl;
@@ -893,6 +975,7 @@ class Init {
         */
         vector<string> getModulesList(int& modNum) {
             vector<string> modList = {""};
+
             while ((pDir = readdir(dir)) != NULL) {
                 if (string(pDir->d_name).find(".xml") == string::npos)
                     continue; 
@@ -901,7 +984,8 @@ class Init {
                 else 
                     modList.push_back(string(pDir->d_name));
                 modNum++;
-            }             
+            }      
+
             return modList;
         }
 
@@ -914,13 +998,16 @@ class Init {
             /* If there is the config file */
             if (fopen(configFile.c_str(), "r")) {
                 ifstream fin(configFile);
+
                 if (fin.good()) {
                     while (!fin.eof()) {
                         getline(fin, line);
+
                         if (line.find("resPath") != string::npos) {
                             for (int i = 0; i < line.length(); i++) {
                                 if (line.at(i) == char(34)) {
                                     i++;
+
                                     while (line.at(i) != char(34)) {
                                         resPath += line.at(i);
                                         i++;
@@ -931,18 +1018,21 @@ class Init {
                             break;
                         }
                     }
+
                     /* Clearing white spaces */
                     string temp = "";
+
                     for (int i = 0; i < resPath.size(); i++) {
                         if (resPath.at(i) != ' ')
                             temp += resPath.at(i);
                     }
+
                     resPath = temp;
                     
                     /* Check empty path */
-                    if (resPath == "") {
+                    if (resPath == "") 
                         dir = NULL;
-                    }
+                    
                     else {
                         if (resPath[resPath.size()-1] != '/')
                             resPath.append("/");
@@ -958,10 +1048,12 @@ class Init {
                 while (true) {
                     cout << "Please supply the path to manager resources: ";
                     cin >> resPath;
+
                     if (resPath[resPath.size()-1] != '/')
                         resPath.append("/");
                     if (resPath[0] != '/')
                         resPath = "/" + resPath;
+
                     dir  = opendir(resPath.c_str());
                     if (dir == NULL) {
                         cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << resPath << "\033[0m" << " not found." << endl;
@@ -980,6 +1072,7 @@ class Init {
         */
         vector<string> getResourcesList(int& resNum) {
             vector<string> resList = {""};
+
             while ((pDir = readdir(dir)) != NULL) {
                 if (string(pDir->d_name).find(".xml") == string::npos)
                     continue; 
@@ -988,7 +1081,8 @@ class Init {
                 else 
                     resList.push_back(string(pDir->d_name));
                 resNum++;
-            }             
+            }    
+
             return resList;
         }
 };
@@ -1001,23 +1095,29 @@ void checkStatus() {
     string yellowColor = "\033[93m";
     string redColor = "\033[91m";
     string endColor = "\033[0m";
-    Console obj;
 
     string configFile = "../ymc2-config.ini";
     string line = "";
     string isANumber = "";
+
+    Console obj;
+
     bool isValid = false;
     int sleepTimer = 5000;
 
+    /* Check configuration file to set sleepTimer */
     if (fopen(configFile.c_str(), "r")) {
         ifstream fin(configFile);
+
         if (fin.good()) {
             while (!fin.eof()) {
                 getline(fin, line);
+
                 if (line.find("sleepTimer") != string::npos) {
                     for (int i = 0; i < line.length(); i++) {
                         if (line.at(i) == char(34)) {
                             i++;
+
                             while (line.at(i) != char(34)) {
                                 isANumber += line.at(i);
                                 i++;
@@ -1028,19 +1128,21 @@ void checkStatus() {
                     break;
                 }
             }
+
             /* Clearing white spaces */
             string temp = "";
+
             for (int i = 0; i < isANumber.size(); i++) {
                 if (isANumber.at(i) != ' ')
                     temp += isANumber.at(i);
             }
+
             isANumber = temp;
                     
             /* Check empty path */
-            if (isANumber == "") {
+            if (isANumber == "") 
                 isValid = false;
-            }
-
+            
             try {
                 sleepTimer = stoi(isANumber);
                 isValid = true;
@@ -1071,8 +1173,9 @@ void checkStatus() {
             if (stateModules[id] != bShouldRun) {
                 if (bShouldRun == false) {
                     cout << endl << redColor << "ERROR: " << endColor << "Module " << id 
-                    << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
-                    << " terminated unexpectedly at: " << blueColor << obj.getTime() << endColor << endl;
+                        << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
+                        << " terminated unexpectedly at: " << blueColor << obj.getTime() << endColor << endl;
+
                     stateModules[id] = false;
                 }
             }          
@@ -1088,15 +1191,17 @@ void checkStatus() {
             if (stateConnections[id] != bShoulConnect) {
                 if (bShoulConnect == false) {
                     cout << endl << redColor << "ERROR: " << endColor << "Connection " << id 
-                    << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
-                    << " disconnected: " << blueColor << obj.getTime() << endColor << endl;
+                        << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
+                        << " disconnected: " << blueColor << obj.getTime() << endColor << endl;
+                    
                     stateConnections[id] = false;
                 }
 
                 else if (bShoulConnect == true) {
                     cout << endl << redColor << "ERROR: " << endColor << "Connection " << id 
-                    << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
-                    << " connected: " << blueColor << obj.getTime() << endColor << endl;
+                        << " of Application " << blueColor + string(manager.getApplicationName()) << endColor 
+                        << " connected: " << blueColor << obj.getTime() << endColor << endl;
+                    
                     stateConnections[id] = true;
                 }
             }          
@@ -1105,7 +1210,7 @@ void checkStatus() {
 }
 
 /* 
- * Catching CTRL+C 
+ * Catch CTRL+C 
  */ 
 void signal_callback_handler(int sig) {
    cout << endl << "Type '" << "\033[92m" << "exit" << "\033[0m" << "' to quit. :(" << endl;
@@ -1121,6 +1226,15 @@ int main(int argc, char* argv[]) {
 
     /* Start message */
     cout << "\033[96m" << endl;
+    cout << "__   __" << endl;
+    cout << char(92) << " " << char(92) << " / / __ ___   __ _ _ __   __ _  __ _  ___ _ __" << endl; 
+    cout << " " << char(92) << " V / '_ ` _ " << char(92) << " / _` | '_ " << char(92) << " / _` |/ _` |/ _ " << char(92) << " '__|" << endl;
+    cout << "  | || | | | | | (_| | | | | (_| | (_| |  __/ |" << endl;
+    cout << "  |_||_| |_| |_|" << char(92) << "__,_|_| |_|" << char(92) << "__,_|" << char(92) << "__, |" << char(92) << "___|_|" << endl;
+    cout << "                                  |___/" << endl;
+
+    cout << endl;
+
     cout << "********************************" << endl;
     cout << "*                              *" << endl;
     cout << "*        Yarp Manager          *" << endl;   
@@ -1130,17 +1244,17 @@ int main(int argc, char* argv[]) {
     cout << "********************************" << endl;
     cout << "\033[0m" << endl;
 
-    /* Reading Applications path */ 
+    /* Read Applications path */ 
     string appPath = objInit.getApplicationsPath();
 
-    /* Creating Applications list */
+    /* Create Applications list */
     int appNum = 0;
     vector<string> appList = objInit.getApplicationsList(appNum);
      
-    /* Reading Modules path */
+    /* Read Modules path */
     string modPath = objInit.getModulesPath();
     
-    /* Creating Modules list */
+    /* Create Modules list */
     int modNum = 0;
     vector<string> modList = objInit.getModulesList(modNum);
 
@@ -1153,7 +1267,7 @@ int main(int argc, char* argv[]) {
         cin >> res;
         if (res == "y") {
             /* Reading Resources path */
-            string resPath = objInit.getResourcesPath();
+            resPath = objInit.getResourcesPath();
             
             /* Creating Resources list */
             resNum = 0;
@@ -1166,6 +1280,7 @@ int main(int argc, char* argv[]) {
     /* Register signal and signal handler */
     signal(SIGINT, signal_callback_handler);
 
+    /* Start thread */
     thread t(checkStatus);
     t.detach();
 
