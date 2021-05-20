@@ -1229,7 +1229,7 @@ int main(int argc, char* argv[]) {
 
     cout << "********************************" << endl;
     cout << "*                              *" << endl;
-    cout << "*        Yarp Manager          *" << endl;   
+    cout << "*         YarpManager          *" << endl;   
     cout << "*    yarpmanager-console2      *" << endl;                  
     cout << "*   Author: Simone Contorno    *" << endl;
     cout << "*                              *" << endl;
