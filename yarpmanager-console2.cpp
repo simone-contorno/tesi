@@ -50,6 +50,13 @@ CnnContainer connections;
 vector<bool> stateModules = {false};
 vector<bool> stateConnections = {false};
 
+string cyanColor = "\033[96m";
+string blueColor = "\033[94m";
+string yellowColor = "\033[93m";
+string greenColor = "\033[92m";
+string redColor = "\033[91m";
+string endColor = "\033[0m";
+
 /*
  * Start Console
  */ 
@@ -60,13 +67,6 @@ class Console {
         ResourcePIterator itrS;  
         ErrorLogger* logger;
         
-        string cyanColor = "\033[96m";
-        string blueColor = "\033[94m";
-        string yellowColor = "\033[93m";
-        string greenColor = "\033[92m";
-        string redColor = "\033[91m";
-        string endColor = "\033[0m";
-
         char* szAppName = nullptr;
         bool build = false;
 
@@ -861,7 +861,7 @@ class Init {
 
                     dir  = opendir(appPath.c_str());
                     if (dir == NULL) {
-                        cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << appPath << "\033[0m" << " not found." << endl;
+                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << appPath << endColor << " not found." << endl;
                         continue;
                     }
                     else break;
@@ -959,7 +959,7 @@ class Init {
 
                     dir  = opendir(modPath.c_str());
                     if (dir == NULL) {
-                        cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << modPath << "\033[0m" << " not found." << endl;
+                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << modPath << endColor << " not found." << endl;
                         continue;
                     }
                     else break;
@@ -1056,7 +1056,7 @@ class Init {
 
                     dir  = opendir(resPath.c_str());
                     if (dir == NULL) {
-                        cout << "\033[91m" << "ERROR:" << "\033[0m" << " directory '" << "\033[94m" << resPath << "\033[0m" << " not found." << endl;
+                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << resPath << endColor << " not found." << endl;
                         continue;
                     }
                     else break;
@@ -1091,11 +1091,6 @@ class Init {
  * Check status            
  */
 void checkStatus() {
-    string blueColor = "\033[94m";
-    string yellowColor = "\033[93m";
-    string redColor = "\033[91m";
-    string endColor = "\033[0m";
-
     string configFile = "../ymc2-config.ini";
     string line = "";
     string isANumber = "";
@@ -1205,7 +1200,7 @@ void checkStatus() {
  * Catch CTRL+C 
  */ 
 void signal_callback_handler(int sig) {
-   cout << endl << "Type '" << "\033[92m" << "exit" << "\033[0m" << "' to quit. " << "\033[96m" << ":(" << "\033[0m" << endl;
+   cout << endl << "Type '" << greenColor << "exit" << endColor << "' to quit. " << cyanColor << ":(" << endColor << endl;
 }
 
 /*
@@ -1217,24 +1212,23 @@ int main(int argc, char* argv[]) {
     Console objConsole;
 
     /* Start message */
-    cout << "\033[96m" << endl;
-    cout << "__   __" << endl;
-    cout << char(92) << " " << char(92) << " / / __ ___   __ _ _ __   __ _  __ _  ___ _ __" << endl; 
-    cout << " " << char(92) << " V / '_ ` _ " << char(92) << " / _` | '_ " << char(92) << " / _` |/ _` |/ _ " << char(92) << " '__|" << endl;
-    cout << "  | || | | | | | (_| | | | | (_| | (_| |  __/ |" << endl;
-    cout << "  |_||_| |_| |_|" << char(92) << "__,_|_| |_|" << char(92) << "__,_|" << char(92) << "__, |" << char(92) << "___|_|" << endl;
+    cout << cyanColor << endl;
+
+    cout << "__   __                                           ____" << endl;
+    cout << char(92) << " " << char(92) << " / / __ ___   __ _ _ __   __ _  __ _  ___ _ __/ _  " << char(92) << endl; 
+    cout << " " << char(92) << " V / '_ ` _ " << char(92) << " / _` | '_ " << char(92) << " / _` |/ _` |/ _ " << char(92) << " '__|/ | |" << endl;
+    cout << "  | || | | | | | (_| | | | | (_| | (_| |  __/ |    / /_" << endl;
+    cout << "  |_||_| |_| |_|" << char(92) << "__,_|_| |_|" << char(92) << "__,_|" << char(92) << "__, |" << char(92) << "___|_|   |____|" << endl;
     cout << "                                  |___/" << endl;
 
     cout << endl;
 
-    cout << "********************************" << endl;
-    cout << "*                              *" << endl;
-    cout << "*         Yarpmanager          *" << endl;   
-    cout << "*    yarpmanager-console2      *" << endl;                  
-    cout << "*   Author: Simone Contorno    *" << endl;
-    cout << "*                              *" << endl;
-    cout << "********************************" << endl;
-    cout << "\033[0m" << endl;
+    cout << " ___________________________" << endl;
+    cout << "|                           |" << endl;     
+    cout << "|  Author: Simone Contorno  |" << endl;
+    cout << "|___________________________|" << endl; 
+
+    cout << endColor << endl << endl;
 
     /* Read Applications path */ 
     string appPath = objInit.getApplicationsPath();
