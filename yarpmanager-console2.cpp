@@ -1110,7 +1110,6 @@ class Init {
  * Check status            
  */
 void checkStatus() {
-    string configFile = "../ymc2-config.ini";
     string line = "";
     string isANumber = "";
 
