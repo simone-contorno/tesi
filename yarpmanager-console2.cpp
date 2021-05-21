@@ -56,6 +56,9 @@ string greenColor = "\033[92m";
 string redColor = "\033[91m";
 string endColor = "\033[0m";
 
+string configFile = "../ymc2-config.ini";
+bool configError = false;
+
 /*
  * Start Console
  */ 
@@ -72,11 +75,14 @@ class Console {
     public: 
         void messageConsole(int appNum, string appPath, vector<string> appList,
                                 int modNum, string modPath, vector<string> modList,
-                                    int resNum, string resPath, vector<string> resList) {
+                                    int resNum, string resPath, vector<string> resList, string anyRes) {
             
             cout << endl << cyanColor << "Console is running..." << endColor << endl;
             cout << endl << "Type '" << greenColor << "help" << endColor << "' to see all available commands." << endl << endl;
-
+            
+            if (configError == false)
+                cout << greenColor << ">> " << endColor;
+                
             int esc = 0;
             while (esc == 0) {
                 getInput(appNum, appPath, appList, modNum, modPath, modList, resNum, resPath, resList, esc);
@@ -790,7 +796,6 @@ class Init {
         DIR* dir = NULL;
         struct dirent* pDir;
         string line = "";
-        string configFile = "../ymc2-config.ini";
 
     public:
         /*
@@ -842,11 +847,16 @@ class Init {
                             appPath.append("/");
                         if (appPath[0] != '/')
                             appPath = "/" + appPath;
+                        
                         dir  = opendir(appPath.c_str());
+                        if (dir == NULL) {
+                            cout << redColor << "ERROR:" << endColor << " path of applications in the config file did not find." << endl;
+                            configError = true;
+                        }
                     }
                 }
             }
-            
+           
             /* If there is NOT the config file */
             if (!fopen(configFile.c_str(), "r") || dir == NULL) {
                 while (true) {
@@ -860,7 +870,7 @@ class Init {
 
                     dir  = opendir(appPath.c_str());
                     if (dir == NULL) {
-                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << appPath << endColor << " not found." << endl;
+                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << appPath << endColor << "' not found." << endl;
                         continue;
                     }
                     else break;
@@ -940,11 +950,16 @@ class Init {
                             modPath.append("/");
                         if (modPath[0] != '/')
                             modPath = "/" + modPath;
+                        
                         dir  = opendir(modPath.c_str());
+                        if (dir == NULL) {
+                            cout << redColor << "ERROR:" << endColor << " path of modules in the config file did not find." << endl;
+                            configError = true;
+                        }
                     }
                 }
             }
-
+            
             /* If there is NOT the config file */
             if (!fopen(configFile.c_str(), "r") || dir == NULL) {
                 while (true) {
@@ -958,7 +973,7 @@ class Init {
 
                     dir  = opendir(modPath.c_str());
                     if (dir == NULL) {
-                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << modPath << endColor << " not found." << endl;
+                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << modPath << endColor << "' not found." << endl;
                         continue;
                     }
                     else break;
@@ -1001,7 +1016,7 @@ class Init {
                 if (fin.good()) {
                     while (!fin.eof()) {
                         getline(fin, line);
-
+                        
                         if (line.find("resPath") != string::npos) {
                             for (int i = 0; i < line.length(); i++) {
                                 if (line.at(i) == char(34)) {
@@ -1037,7 +1052,12 @@ class Init {
                             resPath.append("/");
                         if (resPath[0] != '/')
                             resPath = "/" + resPath;
+                        
                         dir  = opendir(resPath.c_str());
+                        if (dir == NULL) {
+                            cout << redColor << "ERROR:" << endColor << " path of resources in the config file did not find." << endl;
+                            configError = true;
+                        }
                     }
                 }
             }
@@ -1055,7 +1075,7 @@ class Init {
 
                     dir  = opendir(resPath.c_str());
                     if (dir == NULL) {
-                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << resPath << endColor << " not found." << endl;
+                        cout << redColor << "ERROR:" << endColor << " directory '" << blueColor << resPath << endColor << "' not found." << endl;
                         continue;
                     }
                     else break;
@@ -1243,14 +1263,55 @@ int main(int argc, char* argv[]) {
     int modNum = 0;
     vector<string> modList = objInit.getModulesList(modNum);
 
-    string res = "";
+    string anyRes = "";
     string resPath = "";
     vector<string> resList = {""};
     int resNum = 0;
+
+    /* Check config file to anyRes */
+    if (fopen(configFile.c_str(), "r")) {
+        ifstream fin(configFile);
+        string line = "";
+
+        if (fin.good()) {
+            while (!fin.eof()) {
+                getline(fin, line);
+             
+                if (line.find("anyRes") != string::npos) {
+                    for (int i = 0; i < line.length(); i++) {
+                        if (line.at(i) == char(34)) {
+                            i++;
+
+                            while (line.at(i) != char(34)) {
+                                anyRes += line.at(i);
+                                i++;
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            /* Clearing white spaces */
+            string temp = "";
+
+            for (int i = 0; i < anyRes.size(); i++) {
+                if (anyRes.at(i) != ' ')
+                    temp += anyRes.at(i);
+            }
+
+            anyRes = temp;
+        }
+    }
+    
     do {
-        cout << "Do you have any resources? [y/n] ";
-        cin >> res;
-        if (res == "y") {
+        if (anyRes != "y" && anyRes != "n") {
+            cout << "Do you have any resources? [y/n] ";
+            cin >> anyRes;
+        }
+
+        else if (anyRes == "y") {
             /* Reading Resources path */
             resPath = objInit.getResourcesPath();
             
@@ -1258,9 +1319,10 @@ int main(int argc, char* argv[]) {
             resNum = 0;
             resList = objInit.getResourcesList(resNum);
         }
-        if (res != "y" && res != "n")
+
+        else if (anyRes != "y" && anyRes != "n")
             cout << "Please insert 'y' or 'n'." << endl;
-    } while (res != "y" && res != "n");
+    } while (anyRes != "y" && anyRes != "n");
 
     /* Register signal and signal handler */
     signal(SIGINT, signal_callback_handler);
@@ -1270,7 +1332,7 @@ int main(int argc, char* argv[]) {
     t.detach();
 
     /* Call Console */
-    objConsole.messageConsole(appNum, appPath, appList, modNum, modPath, modList, resNum, resPath, resList);
+    objConsole.messageConsole(appNum, appPath, appList, modNum, modPath, modList, resNum, resPath, resList, anyRes);
 
     return 0;
 }
