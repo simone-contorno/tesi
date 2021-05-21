@@ -42,7 +42,6 @@ using namespace yarp::os;
 using namespace yarp::os::impl;
 using namespace yarp::manager;
 
-
 /* Global variables */
 Manager manager;
 ExecutablePContainer modules;  
