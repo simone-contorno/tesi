@@ -103,6 +103,7 @@ class Console {
                 stateModules = {false};
                 modules = manager.getExecutables();
 
+                /* stateModules */
                 for (int id = 0; id < modules.size(); id++) {
                     if (manager.running(id)) {
                         if (id == 0) 
@@ -118,6 +119,7 @@ class Console {
                     }
                 }
 
+                /* stateConnections */
                 for (int id = 0; id < connections.size(); id++) {
                     if (manager.connected(id)) {
                         if (id == 0) 
@@ -272,8 +274,6 @@ class Console {
                     cout << "Module " << blueColor << fileName << endColor << " added." << endl;
                 else 
                     cout << yellowColor << "FAIL:" << endColor << " Module " << blueColor << fileName << endColor << " did not add." << endl;
-                
-                build = true;
             }
 
             /*
