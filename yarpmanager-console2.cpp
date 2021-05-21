@@ -82,7 +82,7 @@ class Console {
             
             if (configError == false)
                 cout << greenColor << ">> " << endColor;
-                
+
             int esc = 0;
             while (esc == 0) {
                 getInput(appNum, appPath, appList, modNum, modPath, modList, resNum, resPath, resList, esc);
@@ -1307,11 +1307,12 @@ int main(int argc, char* argv[]) {
     
     do {
         if (anyRes != "y" && anyRes != "n") {
+            configError = true;
             cout << "Do you have any resources? [y/n] ";
             cin >> anyRes;
         }
 
-        else if (anyRes == "y") {
+        if (anyRes == "y") {
             /* Reading Resources path */
             resPath = objInit.getResourcesPath();
             
@@ -1321,7 +1322,8 @@ int main(int argc, char* argv[]) {
         }
 
         else if (anyRes != "y" && anyRes != "n")
-            cout << "Please insert 'y' or 'n'." << endl;
+            cout << "Please insert '" << greenColor << "y" << endColor 
+                << "' or '" << greenColor << "n" << endColor << "'." << endl;
     } while (anyRes != "y" && anyRes != "n");
 
     /* Register signal and signal handler */
