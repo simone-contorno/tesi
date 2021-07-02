@@ -1,7 +1,9 @@
 <h1>YARP - Yet Another Robot Platform</h1>
 <h2>Runtime monitors of YARP modules</h2>
 
-#Introduction<h3>Introduction</h3>[Go to Intruduction](#introduction)
+#Introduction
+<h3>Introduction</h3>
+ [Go to Intruduction](#introduction)
 <h3>How it works</h3>
 <h3>Installation, Configuration and Execution</h3>
 
