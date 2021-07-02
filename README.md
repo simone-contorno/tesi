@@ -11,7 +11,7 @@
 <a href=#installation-configuration-and-execution>Go to Installation, Configuration and Execution</a>
 
 <p>
- <br><br><br><br><br>
+ <br><br><br>
  Bachelor degree in Computer engineering thesis of Simone Contorno.<br>
  Documentation about yarpmanager-console2 program.
 </p>
