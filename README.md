@@ -1,11 +1,14 @@
 <h1>YARP - Yet Another Robot Platform</h1>
 <h2>Runtime monitors of YARP modules</h2>
 
-#Introduction
 <h3>Introduction</h3>
- [Go to Intruduction](#introduction)
-<h3>How it works</h3>
-<h3>Installation, Configuration and Execution</h3>
+<a href=#introduction>Go to introduction</a>
+
+#How it works<h3>How it works</h3>
+[Go to How it works](#how-it-works)
+
+#Installation Configuration and Execution<h3>Installation, Configuration and Execution</h3>
+[Go to Installation, Configuration and Execution](#installation-configuration-and-execution)
 
 <p>
  Bachelor degree in Computer engineering thesis of Simone Contorno.<br>
@@ -19,6 +22,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
+#how-it-works
 <h3>How it works</h3>
 <p>yarpmanager-console2 allows many commands to lauch:
  <ul>
@@ -33,6 +37,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
+#installation-configuration-and-execution
 <h3>Installation, Configuration and Execution</h3>
 <p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
 
