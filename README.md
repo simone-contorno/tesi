@@ -13,8 +13,12 @@ It looks like this at start:</p>
 ![start](https://github.com/simone-contorno/tesi/blob/main/images/help.png)
 
 <h3>Installation</h3>
-<p>Download the code:</p>
+<p>Download the zip code:</p>
 
+![start](https://github.com/simone-contorno/tesi/blob/main/images/help.png)
+
+Extract it and enter in the folder.
+Configure the yconfig.ini file
 
 
 
