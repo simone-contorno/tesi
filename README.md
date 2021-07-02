@@ -16,15 +16,13 @@
  Documentation about yarpmanager-console2 program.
 </p>
 
-<a aria-hidden="true" href=#introduction>
-<h3>Introduction</h3>
+<h3 name="introduction">Introduction</h3>
 <p>yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
-<a aria-hidden="true" href=#how-it-works>
-<h3>How it works</h3>
+<h3 name="how-it-works">How it works</h3>
 <p>yarpmanager-console2 allows many commands to lauch:
  <ul>
   <li>help: show 'help'.</li>
@@ -38,9 +36,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
-#installation-configuration-and-execution
-<a aria-hidden="true" href=#installation-configuration-and-execution>
-<h3>Installation, Configuration and Execution</h3>
+<h3 name="installation-configuration-and-execution">Installation, Configuration and Execution</h3>
 <p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
 
 <pre>
@@ -89,7 +85,7 @@ It looks like this at start:</p>
  
 Save typing "CTRL+X" and "y" to confirm.
 </p>
-# Introduction
+
 <p>Enter in the 'build' folder:</p>
 
 <pre>
