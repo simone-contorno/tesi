@@ -5,12 +5,13 @@
 <a href=#introduction>Go to introduction</a>
 
 <h3>How it works</h3>
-<a href=#how-it-works>Go to introduction</a>
+<a href=#how-it-works>Go to How it works</a>
 
 <h3>Installation, Configuration and Execution</h3>
-<a href=#installation-configuration-and-execution>Go to introduction</a>
+<a href=#installation-configuration-and-execution>Go to Installation, Configuration and Execution</a>
 
 <p>
+ <br><br><br><br><br>
  Bachelor degree in Computer engineering thesis of Simone Contorno.<br>
  Documentation about yarpmanager-console2 program.
 </p>
