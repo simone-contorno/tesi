@@ -4,18 +4,18 @@
 <h3>Introduction</h3>
 <a href=#introduction>Go to introduction</a>
 
-#How it works<h3>How it works</h3>
-[Go to How it works](#how-it-works)
+<h3>How it works</h3>
+<a href=#how-it-works>Go to introduction</a>
 
-#Installation Configuration and Execution<h3>Installation, Configuration and Execution</h3>
-[Go to Installation, Configuration and Execution](#installation-configuration-and-execution)
+<h3>Installation, Configuration and Execution</h3>
+<a href=#installation-configuration-and-execution>Go to introduction</a>
 
 <p>
  Bachelor degree in Computer engineering thesis of Simone Contorno.<br>
  Documentation about yarpmanager-console2 program.
 </p>
 
-#introduction
+<a aria-hidden="true" href=#introduction>
 <h3>Introduction</h3>
 <p>yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
