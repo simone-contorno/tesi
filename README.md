@@ -1,7 +1,7 @@
 <h1>YARP - Yet Another Robot Platform</h1>
 <h2>Runtime monitors of YARP modules</h2>
 
-<h3>Introduction</h3>
+#Introduction<h3>Introduction</h3>[Go to Intruduction](#introduction)
 <h3>How it works</h3>
 <h3>Installation, Configuration and Execution</h3>
 
@@ -10,21 +10,39 @@
  Documentation about yarpmanager-console2 program.
 </p>
 
+#introduction
 <h3>Introduction</h3>
 <p>yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
 
-![start](https://github.com/simone-contorno/tesi/blob/main/images/schermata_iniziale.png)
+![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
 <h3>How it works</h3>
-<p>yarpmanager-console2 allows many commands to lauch, this is the list: </p>
+<p>yarpmanager-console2 allows many commands to lauch:
+ <ul>
+  <li>help: show 'help'.</li>
+  <li>exit: exit from the program.</li>
+  <li>list mod:
+   
+  </ul>
+</p>
+  
+<p>It appears like this is the program: </p>
 
-![start](https://github.com/simone-contorno/tesi/blob/main/images/help.png)
+![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
 <h3>Installation, Configuration and Execution</h3>
-<p>Download the zip code:</p>
+<p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
 
-![start](https://github.com/simone-contorno/tesi/blob/main/images/download.png)
+<pre>
+ <code>
+  git clone https://github.com/simone-contorno/yarpmanager-console2 
+ </code>
+</pre>
+
+<p>You can also download the zip code:</p>
+
+![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/download.png)
 
 <p>Go in the folder where you download the zip and extract it:</p>
 
