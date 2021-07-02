@@ -1,9 +1,19 @@
-YARP - Yet Another Robot Platform
+<h1>YARP - Yet Another Robot Platform</h1>
+<h2>Runtime monitors of YARP modules</h2>
 
-YarpManager: yarpmanager-console2 implementation.
- 
-Thesis - Computer Engineering (UniGe)
+<h3>Introduction</h3>
+<p>yarpmanager-console2 is a program to manage and monitor YARP modules.</p>
 
-Author: Simone Contorno 
+<h3>How it works</h3>
+<p>yarpmanager-console2 allows more .</p>
 
-Configure file ymc2-config.ini to set paths and timer.
+<h3>Installation</h3>
+<p>yarpmanager-console2 is a program to manage and monitor YARP modules.</p>
+
+![start]()
+
+<pre>
+ <code>
+  cccc
+ </code>
+</pre>
