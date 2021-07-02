@@ -22,7 +22,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
-#how-it-works
+<a aria-hidden="true" href=#how-it-works>
 <h3>How it works</h3>
 <p>yarpmanager-console2 allows many commands to lauch:
  <ul>
@@ -37,7 +37,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
-#installation-configuration-and-execution
+<a aria-hidden="true" href=#installation-configuration-and-execution>
 <h3>Installation, Configuration and Execution</h3>
 <p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
 
@@ -103,6 +103,3 @@ Save typing "CTRL+X" and "y" to confirm.
   ./yarpmanager-console2
  </code>
 </pre>
-
-
-
