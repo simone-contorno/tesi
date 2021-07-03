@@ -2,22 +2,21 @@
 <h2>Runtime monitors of YARP modules</h2>
 
 ### Introduction
-[Go to Introduction](#introduction)
+[Go to Introduction](#intro)
 
 ### How it works
 [Go to How it works](#how)
-
 
 ### Installation, Configuration and Execution
 [Go to Installation, Configuration and Execution](#installation)
 
 <p>
  <br><br><br>
- Bachelor degree in Computer engineering thesis of Simone Contorno.<br>
+ Bachelor degree in Computer engineering thesis by Simone Contorno.<br>
  Documentation about yarpmanager-console2 program.
 </p>
 
-<a name="introduction"></a>
+<a name="intro"></a>
 <h3>Introduction</h3>
 <p>yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
@@ -26,16 +25,33 @@ It looks like this at start:</p>
 
 <a name="how"></a>
 <h3>How it works</h3>
-<p>yarpmanager-console2 allows many commands to lauch:
+<p>yarpmanager-console2 allows many commands to launch:
  <ul>
-  <li>help: show 'help'.</li>
-  <li>exit: exit from the program.</li>
-  <li>list mod:
-   
+  <li>help:                   show help.</li>
+  <li>exit:                   exit from the program.</li>
+  <li>list mod:               list available modules.</li>
+  <li>list app:               list available applications.</li>
+  <li>list res:               list available resources.</li>
+  <li>add mod [filename]:     add a module from its description file.</li>
+  <li>add app [filename]:     add an application from its description file.</li>
+  <li>add res [filename]:     add a resource from its description file.</li>
+  <li>load app [application]: load an application to run.</li>
+  <li>run [IDs]:              run an application or a module indicated by IDs.</li>
+  <li>stop [IDs]:             stop running application or modules indicated by IDs.</li>
+  <li>kill [IDs]:             kill running application or modules indicated by IDs</li>
+  <li>connect [IDs]:          establish all connections or just one connection indicated by IDs.</li>
+  <li>disconnect [IDs]:       remove all connections or just one connection indicated by IDs.</li>
+  <li>which:                  list loaded modules, connection and resource dependencies.</li>
+  <li>check dep:              check for all resource dependencies.</li>
+  <li>check state [id]:       check for running state of application or a module indicated by id.</li>
+  <li>check con [id]:         check for all connections state or just one connection indicated by id.</li>
+  <li>set <option> [value]:   set value to an option. To see all available options type 'set --help'.</li>
+  <li>export [filename]:      export application's graph ad Graphviz dot format.</li>
+  <li>assign hosts:           automatically assign modules to proper nodes using load balancer.</li>
   </ul>
 </p>
   
-<p>It appears like this is the program: </p>
+<p>It appears like this in the program: </p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
@@ -53,7 +69,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/download.png)
 
-<p>Go in the folder where you download the zip and extract it:</p>
+<p>Go in the folder where you downloaded the zip and extract it:</p>
 
 <pre>
  <code>
@@ -90,11 +106,35 @@ It looks like this at start:</p>
 Save typing "CTRL+X" and "y" to confirm.
 </p>
 
+<p>Create a folder named 'build':</p>
+
+<pre>
+ <code>
+  mkdir build
+ </code>
+</pre>
+
 <p>Enter in the 'build' folder:</p>
 
 <pre>
  <code>
   cd build
+ </code>
+</pre>
+
+<p>Generates the 'Makefile':</p>
+
+<pre>
+ <code>
+  cmake ..
+ </code>
+</pre>
+
+<p>Build the program:</p>
+
+<pre>
+ <code>
+  make
  </code>
 </pre>
 
@@ -105,3 +145,5 @@ Save typing "CTRL+X" and "y" to confirm.
   ./yarpmanager-console2
  </code>
 </pre>
+
+<p>Now you can use yarpmanager-console2 to manage and monitors your moduled and your connections.</p>
