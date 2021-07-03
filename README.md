@@ -38,7 +38,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
-<a name="installation-configuration-and-execution" aria-hidden="true">
+### installation-configuration-and-execution
 ### Installation, Configuration and Execution
 <p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
 
