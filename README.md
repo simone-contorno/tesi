@@ -27,7 +27,21 @@
   <li>Application: a collection of modules, connections and other applications.</li>
   <li>Resources: refers to any physical or logical resources which are needed by module.</li>
  </ul>
- 
+
+It is possible control the state of a module or an application
+
+ <ul> 
+  <li>RUNNING: the module or the application is in execution.</li>
+  <li>STOPPED: the module or the application is not in execution.</li>
+ </ul>
+
+and of a connection:
+
+ <ul> 
+   <li>CONNECTED</li>
+   <li>DISCONNECTED</li>
+  </ul>
+  
 yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules and connections and reports if one of them terminates unexpectedly. 
 yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
@@ -158,4 +172,4 @@ Save typing "CTRL+X" and "y" to confirm.
  </code>
 </pre>
 
-<p>Now you can use yarpmanager-console2 to manage and monitors your moduled and your connections.</p>
+<p>Now you can use yarpmanager-console2 to manage and monitors your modules, applications and connections.</p>
