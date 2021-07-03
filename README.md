@@ -7,7 +7,7 @@
 <h3>How it works</h3>
 <a href=#how-it-works>Go to How it works</a>
 
-### Installation, Configuration and Execution
+<h3>Installation, Configuration and Execution</h3>
 [Go to Installation, Configuration and Execution](#installation)
 
 <p>
@@ -38,7 +38,8 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
 
-### <a name="installation"></a>Installation, Configuration and Execution
+<a name="installation"></a>
+<h3>Installation, Configuration and Execution</h3>
 <p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
 
 <pre>
