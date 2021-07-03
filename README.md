@@ -23,6 +23,7 @@ It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
+<a name="how-it-works"></a>
 <a name="how"></a>
 <h3>How it works</h3>
 <p>yarpmanager-console2 allows many commands to launch:
