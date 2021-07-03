@@ -18,15 +18,26 @@
 
 <a name="intro"></a>
 <h3>Introduction</h3>
-<p>yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
+<p>
+ YARP supports building a robot control system as a collection of programs communicating in a peer-to-peer way, with an extensible family of connection types (tcp, udp, multicast, ...).<br>
+ YARP offers a lot of command line tools like yarpmanager-console; this is a program to run and manage multiple programs on a set of machines; you can do it managing: 
+ 
+ <ul>
+  <li>Module: an executable binary file (program).</li>
+  <li>Application: a collection of modules, connections and other applications.</li>
+  <li>Resources: refers to any physical or logical resources which are needed by module.</li>
+ </ul>
+ 
+yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules and connections and reports if one of them terminates unexpectedly. 
+yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
-<a name="how-it-works"></a>
 <a name="how"></a>
 <h3>How it works</h3>
 <p>yarpmanager-console2 allows many commands to launch:
+ 
  <ul>
   <li>help:                   show help.</li>
   <li>exit:                   exit from the program.</li>
