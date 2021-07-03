@@ -7,7 +7,7 @@
 <h3>How it works</h3>
 <a href=#how-it-works>Go to How it works</a>
 
-<h3>Installation, Configuration and Execution</h3>
+### Installation, Configuration and Execution
 [Go to Installation, Configuration and Execution](#installation)
 
 <p>
