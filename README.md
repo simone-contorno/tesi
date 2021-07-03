@@ -1,11 +1,12 @@
 <h1>YARP - Yet Another Robot Platform</h1>
 <h2>Runtime monitors of YARP modules</h2>
 
-<h3>Introduction</h3>
-<a href=#introduction>Go to introduction</a>
+### Introduction
+[Go to Introduction](#introduction)
 
-<h3>How it works</h3>
-<a href=#how-it-works>Go to How it works</a>
+### How it works
+[Go to How it works](#how)
+
 
 ### Installation, Configuration and Execution
 [Go to Installation, Configuration and Execution](#installation)
@@ -16,14 +17,14 @@
  Documentation about yarpmanager-console2 program.
 </p>
 
-<a name="introduction" aria-hidden="true">
+<a name="introduction"></a>
 <h3>Introduction</h3>
 <p>yarpmanager-console2 is a program to manage and monitor YARP modules.<br>
 It looks like this at start:</p>
 
 ![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
 
-<a name="how-it-works" aria-hidden="true">
+<a name="how"></a>
 <h3>How it works</h3>
 <p>yarpmanager-console2 allows many commands to lauch:
  <ul>
