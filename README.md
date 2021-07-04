@@ -51,7 +51,7 @@ and of a connection:
    <li>DISCONNECTED</li>
   </ul>
   
-yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules and connections and reports if one of them terminates unexpectedly.<br>
+yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules, connections and reports if one of them terminates unexpectedly.<br>
 <br>
 It looks like this at start:
 
