@@ -53,7 +53,7 @@ It looks like this at start:
 
 ![schermata_iniziale](https://user-images.githubusercontent.com/83269499/124388487-74c9c800-dce3-11eb-8a19-3a754d8937dc.png)
 
-<a name="how"></a>
+<a name="how"></a><br>
 ### How it works
 yarpmanager-console2 allows many commands to launch:
  
@@ -89,7 +89,7 @@ When you launch the program it starts with the main class; if you did not set th
 After, the 'main' class starts the separate thread, that will check all modules and connections each 5 seconds (to default, but you can set it in the 'ymc2-config.ini' file), and calls the function 'messageConsole' by the 'Console' class; it starts a 'while' cicle that calls the function 'getInput', so you can start to use all the commands shown above; when you digit one of them, it starts a control with a conditional structure 'if-else if-else' to select the correct operation and call the correct functions.<br>
 When you have finished to use the program, you need to ditig 'exit' to close it, because there is a control in the 'main' class to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
 
-<a name="installation"></a>
+<a name="installation"></a><br>
 ### Installation, Configuration and Execution
 Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:
 
@@ -181,7 +181,7 @@ Run the program:
 
 Now you can play with yarpmanager-console2.
 
-<a name="tutorial"></a>
+<a name="tutorial"></a><br>
 ### Tutorial (example)
 
 Run the program and watch all the available commands:
@@ -192,7 +192,7 @@ Run the program and watch all the available commands:
  </code>
 </pre>
 
-Show all available application:
+Show all available applications:
 
 <pre>
  <code>
@@ -264,12 +264,11 @@ Stop it:
  </code>
 </pre>
 
-You will see something like this:
+If you digit 'stop' without specifying the module's number, all modules will stop.<br>
+<br>
+Check again the state of the running module; you will see something like this:
 
 ![stopped_state_img](https://user-images.githubusercontent.com/83269499/124389068-d854f500-dce5-11eb-83e9-98397375cc18.png)
-
-If you digit 'stop' without specifying the module's number, all modules will stop.<br>
-Check again the state of the running module.<br>
 
 Now, to see what happen when a module terminate unexpectedly: run again a module and, if the module that you runned open a window you can try to close it, otherwise you can open the task manager, search the name of the module and terminate it. You will see a message like this one:
 
@@ -285,9 +284,8 @@ Close the program:
 
 You will see this message: 
 
-![exit_img](https://user-images.githubusercontent.com/83269499/124389388-19013e00-dce7-11eb-8c52-ddce5a659812.png)
+![exit_img](https://user-images.githubusercontent.com/83269499/124389600-37b40480-dce8-11eb-8386-c0d676defc37.png)
 
 If you are sure digit 'y', otherwise digit 'n'. 
 
-Bye. :)
-
+Bye.	:slightly_smiling_face:
