@@ -2,25 +2,30 @@
 <h2>Runtime monitors of YARP modules</h2>
 
 ### Introduction
+An overview of the main concepts about this program.<br>
 [Go to Introduction](#intro)
 
 ### How it works
+A rapid description of how the program works (with references to the code).<br>
 [Go to How it works](#how)
 
 ### Installation, Configuration and Execution
+How install yarpmanager-console2 on linux.<br>
 [Go to Installation, Configuration and Execution](#installation)
 
-<p>
- <br><br><br>
- Bachelor degree in Computer engineering thesis by Simone Contorno.<br>
- Documentation about yarpmanager-console2 program.
-</p>
+### Tutorial (example)
+A small tutorial to run a module and check if it terminate unexpectedly.<br>
+[Go to Tutorial (example)](#tutorial)
+
+<br><br><br>
+Bachelor degree in Computer engineering thesis by Simone Contorno.<br>
+Documentation about yarpmanager-console2 program.
 
 <a name="intro"></a>
-<h3>Introduction</h3>
-<p>
- YARP supports building a robot control system as a collection of programs communicating in a peer-to-peer way, with an extensible family of connection types (tcp, udp, multicast, ...).<br>
- YARP offers a lot of command line tools like yarpmanager-console; this is a program to run and manage multiple programs on a set of machines; you can do it managing: 
+### Introduction
+
+YARP supports building a robot control system as a collection of programs communicating in a peer-to-peer way, with an extensible family of connection types (tcp, udp, multicast, ...).<br>
+YARP offers a lot of command line tools like yarpmanager-console; this is a program to run and manage multiple programs on a set of machines; you can do it managing: 
  
  <ul>
   <li>Module: an executable binary file (program).</li>
@@ -44,13 +49,13 @@ and of a connection:
   
 yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules and connections and reports if one of them terminates unexpectedly.<br>
 <br>
-It looks like this at start:</p>
+It looks like this at start:
 
-![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/schermata_iniziale.png)
+![schermata_iniziale](https://user-images.githubusercontent.com/83269499/124388487-74c9c800-dce3-11eb-8a19-3a754d8937dc.png)
 
 <a name="how"></a>
-<h3>How it works</h3>
-<p>yarpmanager-console2 allows many commands to launch:
+### How it works
+yarpmanager-console2 allows many commands to launch:
  
  <ul>
   <li>help:                   show help.</li>
@@ -75,21 +80,18 @@ It looks like this at start:</p>
   <li>export [filename]:      export application's graph ad Graphviz dot format.</li>
   <li>assign hosts:           automatically assign modules to proper nodes using load balancer.</li>
   </ul>
-</p>
 
-<p>It appears like this in the program: </p>
+It appears like this in the program: 
 
-![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/help.png)
+![help_img](https://user-images.githubusercontent.com/83269499/124388485-6f6c7d80-dce3-11eb-9238-52c408a3c72b.png)
 
-<p>
- When you launch the program it starts with the main class; if you did not set the 'ymc2-config.ini' file, you need to insert the folder's paths that contain your applications, modules and resources (in this last one case, only if you have them, otherwise you can digit 'n' when the program will ask you, or set it in the 'ymc2-config.ini' file).<br>
- After, the 'main' class starts the separate thread, that will check all modules and connections each 5 seconds (to default, but you can set it in the 'ymc2-config.ini' file), and calls the function 'messageConsole' by the 'Console' class; it starts a 'while' cicle that calls the function 'getInput', so you can start to use all the commands shown above; when you digit one of them, it starts a control with a conditional structure 'if-else if-else' to select the correct operation and call the correct functions.<br>
- When you have finished to use the program, you need to ditig 'exit' to close it, because there is a control in the 'main' class to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
-</p>
+When you launch the program it starts with the main class; if you did not set the 'ymc2-config.ini' file, you need to insert the folder's paths that contain your applications, modules and resources (in this last one case, only if you have them, otherwise you can digit 'n' when the program will ask you, or set it in the 'ymc2-config.ini' file).<br>
+After, the 'main' class starts the separate thread, that will check all modules and connections each 5 seconds (to default, but you can set it in the 'ymc2-config.ini' file), and calls the function 'messageConsole' by the 'Console' class; it starts a 'while' cicle that calls the function 'getInput', so you can start to use all the commands shown above; when you digit one of them, it starts a control with a conditional structure 'if-else if-else' to select the correct operation and call the correct functions.<br>
+When you have finished to use the program, you need to ditig 'exit' to close it, because there is a control in the 'main' class to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
 
 <a name="installation"></a>
-<h3>Installation, Configuration and Execution</h3>
-<p>Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:</p>
+### Installation, Configuration and Execution
+Open the terminal and go in the folder where you want to download yarpmanager-console2 and digit:
 
 <pre>
  <code>
@@ -97,11 +99,11 @@ It looks like this at start:</p>
  </code>
 </pre>
 
-<p>You can also download the zip code:</p>
+You can also download the zip code:
 
-![start](https://github.com/simone-contorno/yarpmanager-console2/blob/main/images/download.png)
+![download](https://user-images.githubusercontent.com/83269499/124388479-69769c80-dce3-11eb-90b7-744de32af414.png)
 
-<p>Go in the folder where you downloaded the zip and extract it:</p>
+Go in the folder where you downloaded the zip and extract it:
 
 <pre>
  <code>
@@ -109,7 +111,7 @@ It looks like this at start:</p>
  </code>
 </pre>
 
-<p>Enter in the folder:</p>
+Enter in the folder:
 
 <pre>
  <code>
@@ -117,7 +119,7 @@ It looks like this at start:</p>
  </code>
 </pre>
 
-<p>Open the ymc2-config.ini file:</p>
+Open the 'ymc2-config.ini' file:
 
 <pre>
  <code>
@@ -125,7 +127,7 @@ It looks like this at start:</p>
  </code>
 </pre>
 
-<p>Set:
+Set:
  
 <ul>
   <li><b>appPath</b>: path of your applications files.</li>
@@ -135,10 +137,9 @@ It looks like this at start:</p>
   <li><b>sleepTimer</b>: timer to check modules and connections states; it is '5000' (milliseconds) to deafult.</li>
  </ul>
  
-Save typing "CTRL+X" and "y" to confirm.
-</p>
+Save typing 'CTRL+X' and 'y' to confirm.
 
-<p>Create a folder named 'build':</p>
+Create a folder named 'build':
 
 <pre>
  <code>
@@ -146,7 +147,7 @@ Save typing "CTRL+X" and "y" to confirm.
  </code>
 </pre>
 
-<p>Enter in the 'build' folder:</p>
+Enter in the 'build' folder:
 
 <pre>
  <code>
@@ -154,7 +155,7 @@ Save typing "CTRL+X" and "y" to confirm.
  </code>
 </pre>
 
-<p>Generates the 'Makefile':</p>
+Generates the 'Makefile':
 
 <pre>
  <code>
@@ -162,7 +163,7 @@ Save typing "CTRL+X" and "y" to confirm.
  </code>
 </pre>
 
-<p>Build the program:</p>
+Build the program:
 
 <pre>
  <code>
@@ -170,7 +171,7 @@ Save typing "CTRL+X" and "y" to confirm.
  </code>
 </pre>
 
-<p>Run the program:</p>
+Run the program:
 
 <pre>
  <code>
@@ -178,4 +179,115 @@ Save typing "CTRL+X" and "y" to confirm.
  </code>
 </pre>
 
-<p>Now you can use yarpmanager-console2 to manage and monitors your modules, applications and connections.</p>
+Now you can play with yarpmanager-console2.
+
+<a name="tutorial"></a>
+### Tutorial (example)
+
+Run the program and watch all the available commands:
+
+<pre>
+ <code>
+  help
+ </code>
+</pre>
+
+Show all available application:
+
+<pre>
+ <code>
+  list app
+ </code>
+</pre>
+
+If you set, or insert, correctly the path of your application, you will see a list like this one:
+
+![list_app_img](https://user-images.githubusercontent.com/83269499/124388462-5a8fea00-dce3-11eb-9650-dd6fccc00af6.png)
+
+Add one of them (in this example i loaded 'eyesviewer-localhost.xml'):
+
+<pre>
+ <code>
+  add app eyesviewer-localhost.xml
+ </code>
+</pre>
+
+Load it:
+
+<pre>
+ <code>
+  load app eyesviewer-localhost.xml
+ </code>
+</pre>
+
+Show all informations (name, modules, connections and resources) about it: 
+
+<pre>
+ <code>
+  which
+ </code>
+</pre>
+
+You will see something like this: 
+
+![which_img](https://user-images.githubusercontent.com/83269499/124388671-2a951680-dce4-11eb-8c34-e7c0ea80c3d4.png)
+
+Run one of the available modules (in this example i runned the first one):
+
+<pre>
+ <code>
+  run 0 
+ </code>
+</pre>
+
+If you digit 'run' without specifying the module's number, all modules will run.<br>
+
+Check the state of the running module:
+
+<pre>
+ <code>
+  check state 0 
+ </code>
+</pre>
+
+You will see something like this: 
+
+![running_state_img](https://user-images.githubusercontent.com/83269499/124389044-ba879000-dce5-11eb-9824-9731aad286ce.png)
+
+If you digit 'check state' without specifying the module's number, all module's states will be shown.<br>
+
+Stop it:
+
+<pre>
+ <code>
+  stop 0 
+ </code>
+</pre>
+
+You will see something like this:
+
+![stopped_state_img](https://user-images.githubusercontent.com/83269499/124389068-d854f500-dce5-11eb-83e9-98397375cc18.png)
+
+If you digit 'stop' without specifying the module's number, all modules will stop.<br>
+Check again the state of the running module.<br>
+
+Now, to see what happen when a module terminate unexpectedly: run again a module and, if the module that you runned open a window you can try to close it, otherwise you can open the task manager, search the name of the module and terminate it. You will see a message like this one:
+
+![error_massage_img](https://user-images.githubusercontent.com/83269499/124388789-ad1dd600-dce4-11eb-976f-328d5c6d0171.png)
+
+Close the program:
+
+<pre>
+ <code>
+  exit
+ </code>
+</pre>
+
+You will see this message: 
+
+![exit_img](https://user-images.githubusercontent.com/83269499/124389388-19013e00-dce7-11eb-8c52-ddce5a659812.png)
+
+If you are sure digit 'y', otherwise digit 'n'. 
+
+Bye. :)
+
