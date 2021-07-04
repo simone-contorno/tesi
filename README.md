@@ -37,7 +37,7 @@ YARP offers a lot of command line tools like yarpmanager-console; this is a prog
   <li>Resources: refers to any physical or logical resources which are needed by module.</li>
  </ul>
 
-It is possible control the state of a module or an application
+It is possible control the state of a module or an application:
 
  <ul> 
   <li>RUNNING: the module or the application is in execution.</li>
