@@ -22,7 +22,7 @@ Conclusion of this documentation.<br>
 [Go to Acknowledgments](#ack)
 
 <br><br><br>
-Bachelor degree in Computer engineering thesis by Simone Contorno.<br>
+Bachelor's thesis degree in Computer Engineering by Simone Contorno.<br>
 Documentation about yarpmanager-console2 program.
 
 <a name="intro"></a>
