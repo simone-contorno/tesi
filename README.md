@@ -99,7 +99,7 @@ Open the terminal and go in the folder where you want to download yarpmanager-co
 
 <pre>
  <code>
-  git clone https://github.com/simone-contorno/yarpmanager-console2 
+  git clone https://github.com/simone-contorno/yarpmanager-console2
  </code>
 </pre>
 
@@ -111,7 +111,7 @@ Go in the folder where you downloaded the zip and extract it:
 
 <pre>
  <code>
-  unzip tesi-main.zip 
+  unzip tesi-main.zip
  </code>
 </pre>
 
@@ -119,7 +119,7 @@ Enter in the folder:
 
 <pre>
  <code>
-  cd yarpmanager-console2-zip 
+  cd yarpmanager-console2-main
  </code>
 </pre>
 
@@ -240,7 +240,7 @@ Run one of the available modules (in this example i runned the first one):
 
 <pre>
  <code>
-  run 0 
+  run 0
  </code>
 </pre>
 
@@ -250,7 +250,7 @@ Check the state of the running module:
 
 <pre>
  <code>
-  check state 0 
+  check state 0
  </code>
 </pre>
 
@@ -264,7 +264,7 @@ Stop it:
 
 <pre>
  <code>
-  stop 0 
+  stop 0
  </code>
 </pre>
 
