@@ -208,7 +208,7 @@ If you set, or insert, correctly the path of your application, you will see a li
 
 ![list_app_img](https://user-images.githubusercontent.com/83269499/124388462-5a8fea00-dce3-11eb-9650-dd6fccc00af6.png)
 
-Add one of them (in this example i loaded 'eyesviewer-localhost.xml'):
+Add one of them (in this example i added 'eyesviewer-localhost.xml'):
 
 <pre>
  <code>
