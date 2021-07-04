@@ -17,6 +17,10 @@ How install yarpmanager-console2 on linux.<br>
 A small tutorial to run a module and check if it terminate unexpectedly.<br>
 [Go to Tutorial (example)](#tutorial)
 
+### Acknowledgments
+Conclusion of this documentation.<br>
+[Go to Acknowledgments](#ack)
+
 <br><br><br>
 Bachelor degree in Computer engineering thesis by Simone Contorno.<br>
 Documentation about yarpmanager-console2 program.
@@ -288,4 +292,8 @@ You will see this message:
 
 If you are sure digit 'y', otherwise digit 'n'. 
 
+<a name="ack"></a><br>
+### Acknowledgments
+I hope that this documentation helped you to understand the functioning of yarpmanager-console2 clearly.<br>
+<br>
 Bye.	:slightly_smiling_face:
