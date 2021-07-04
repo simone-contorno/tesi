@@ -10,7 +10,7 @@ A rapid description of how the program works (with references to the code).<br>
 [Go to How it works](#how)
 
 ### Installation, Configuration and Execution
-How install yarpmanager-console2 on linux.<br>
+How install yarpmanager-console2 on Linux.<br>
 [Go to Installation, Configuration and Execution](#installation)
 
 ### Tutorial (example)
