@@ -14,7 +14,7 @@ How install yarpmanager-console2 on Linux.<br>
 [Go to Installation, Configuration and Execution](#installation)
 
 ### Tutorial (example)
-A small tutorial to run a module and check if it terminate unexpectedly.<br>
+A small tutorial to run a module and check if it terminates unexpectedly.<br>
 [Go to Tutorial (example)](#tutorial)
 
 ### Acknowledgments
@@ -33,7 +33,7 @@ YARP offers a lot of command line tools like yarpmanager-console; this is a prog
  
  <ul>
   <li>Module: an executable binary file (program).</li>
-  <li>Application: a collection of modules, connections and other applications.</li>
+  <li>Application: a collection of modules, connections, and other applications.</li>
   <li>Resources: refers to any physical or logical resources which are needed by module.</li>
  </ul>
 
@@ -51,7 +51,7 @@ and of a connection:
    <li>DISCONNECTED</li>
   </ul>
   
-yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules, connections and reports if one of them terminates unexpectedly.<br>
+yarpmanager-console2 implement a new function that works as a separate thread during the execution of the program: monitors modules, connections, and reports if one of them terminates unexpectedly.<br>
 <br>
 It looks like this at start:
 
@@ -73,10 +73,10 @@ yarpmanager-console2 allows many commands to launch:
   <li>load app [application]: load an application to run.</li>
   <li>run [IDs]:              run an application or a module indicated by IDs.</li>
   <li>stop [IDs]:             stop running application or modules indicated by IDs.</li>
-  <li>kill [IDs]:             kill running application or modules indicated by IDs</li>
+  <li>kill [IDs]:             kill running application or modules indicated by IDs.</li>
   <li>connect [IDs]:          establish all connections or just one connection indicated by IDs.</li>
   <li>disconnect [IDs]:       remove all connections or just one connection indicated by IDs.</li>
-  <li>which:                  list loaded modules, connection and resource dependencies.</li>
+  <li>which:                  list loaded modules, connection, and resource dependencies.</li>
   <li>check dep:              check for all resource dependencies.</li>
   <li>check state [id]:       check for running state of application or a module indicated by id.</li>
   <li>check con [id]:         check for all connections state or just one connection indicated by id.</li>
@@ -90,8 +90,8 @@ It appears like this in the program:
 ![help_img](https://user-images.githubusercontent.com/83269499/124388485-6f6c7d80-dce3-11eb-9238-52c408a3c72b.png)
 
 When you launch the program it starts with the main class; if you did not set the 'ymc2-config.ini' file, you need to insert the folder's paths that contain your applications, modules and resources (in this last one case, only if you have them, otherwise you can digit 'n' when the program will ask you, or set it in the 'ymc2-config.ini' file).<br>
-After, the 'main' class starts the separate thread, that will check all modules and connections each 5 seconds (to default, but you can set it in the 'ymc2-config.ini' file), and calls the function 'messageConsole' by the 'Console' class; it starts a 'while' cicle that calls the function 'getInput', so you can start to use all the commands shown above; when you digit one of them, it starts a control with a conditional structure 'if-else if-else' to select the correct operation and call the correct functions.<br>
-When you have finished to use the program, you need to ditig 'exit' to close it, because there is a control in the 'main' class to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
+After, the 'main' class starts the separate thread, that will check all modules and connections each 5 seconds (to default, but you can set it in the 'ymc2-config.ini' file), and calls the function 'messageConsole' by the 'Console' class; it starts a 'while' cycle that calls the function 'getInput', so you can start to use all the commands shown above; when you digit one of them, it starts a control with a conditional structure 'if-else if-else' to select the correct operation and call the correct functions.<br>
+When you have finished to use the program, you need to digit 'exit' to close it, because there is a control in the 'main' class to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
 
 <a name="installation"></a><br>
 ### Installation, Configuration and Execution
@@ -138,7 +138,7 @@ Set:
   <li><b>modPath</b>: path of your modules files.</li>
   <li><b>resPath</b>: path of your resources files.</li>
   <li><b>anyRes</b>: write 'y' if you have any resource file, otherwise write 'n'.</li>
-  <li><b>sleepTimer</b>: timer to check modules and connections states; it is '5000' (milliseconds) to deafult.</li>
+  <li><b>sleepTimer</b>: timer to check modules and connections states; it is '5000' (milliseconds) to default.</li>
  </ul>
  
 Save typing 'CTRL+X' and 'y' to confirm.
@@ -236,7 +236,7 @@ You will see something like this:
 
 ![which_img](https://user-images.githubusercontent.com/83269499/124388671-2a951680-dce4-11eb-8c34-e7c0ea80c3d4.png)
 
-Run one of the available modules (in this example i runned the first one):
+Run one of the available modules (in this example i ran the first one):
 
 <pre>
  <code>
@@ -274,7 +274,7 @@ Check again the state of the module; you will see something like this:
 
 ![stopped_state_img](https://user-images.githubusercontent.com/83269499/124389068-d854f500-dce5-11eb-83e9-98397375cc18.png)
 
-Now, to see what happen when a module terminate unexpectedly: run again a module and, if the module that you runned open a window you can try to close it, otherwise you can open the task manager, search the name of the module and terminate it. You will see a message like this one:
+Now, to see what happen when a module terminates unexpectedly: run again a module and, if the module that you ran open a window you can try to close it, otherwise you can open the task manager, search the name of the module and terminate it. You will see a message like this one:
 
 ![error_massage_img](https://user-images.githubusercontent.com/83269499/124388789-ad1dd600-dce4-11eb-976f-328d5c6d0171.png)
 
