@@ -270,7 +270,7 @@ Stop it:
 
 If you digit 'stop' without specifying the module's number, all modules will stop.<br>
 <br>
-Check again the state of the running module; you will see something like this:
+Check again the state of the module; you will see something like this:
 
 ![stopped_state_img](https://user-images.githubusercontent.com/83269499/124389068-d854f500-dce5-11eb-83e9-98397375cc18.png)
 
