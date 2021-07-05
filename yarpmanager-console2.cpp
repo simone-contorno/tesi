@@ -181,7 +181,7 @@ class Console {
              */
             if (instr[0] == "help") {
                 cout << greenColor << "help                     " << endColor << " : show help." << endl;
-                cout << greenColor << "exit                     " << endColor << " : exit printer." << endl;
+                cout << greenColor << "exit                     " << endColor << " : exit from the program." << endl;
                 cout << greenColor << "list mod                 " << endColor << " : list available modules." << endl;
                 cout << greenColor << "list app                 " << endColor << " : list available applications." << endl;
                 cout << greenColor << "list res                 " << endColor << " : list available resources." << endl;
