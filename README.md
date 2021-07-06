@@ -224,7 +224,7 @@ Load it:
  </code>
 </pre>
 
-Show all informations (name, modules, connections and resources) about it: 
+Show all information (name, modules, connections, and resources) about it: 
 
 <pre>
  <code>
@@ -274,7 +274,7 @@ Check again the state of the module; you will see something like this:
 
 ![stopped_state_img](https://user-images.githubusercontent.com/83269499/124389068-d854f500-dce5-11eb-83e9-98397375cc18.png)
 
-Now, to see what happen when a module terminates unexpectedly: run again a module and, if the module that you ran open a window you can try to close it, otherwise you can open the task manager, search the name of the module and terminate it. You will see a message like this one:
+Now, to see what happen when a module terminates unexpectedly: run again a module and, if the module that you ran open a window you can try to close it, otherwise you can open the task manager, search the name of the module, and terminate it. You will see a message like this one:
 
 ![error_massage_img](https://user-images.githubusercontent.com/83269499/124388789-ad1dd600-dce4-11eb-976f-328d5c6d0171.png)
 
