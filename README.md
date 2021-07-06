@@ -134,9 +134,9 @@ Open the 'ymc2-config.ini' file:
 Set:
  
 <ul>
-  <li><b>appPath</b>: path of your applications files.</li>
-  <li><b>modPath</b>: path of your modules files.</li>
-  <li><b>resPath</b>: path of your resources files.</li>
+  <li><b>appPath</b>: path of your application files.</li>
+  <li><b>modPath</b>: path of your module files.</li>
+  <li><b>resPath</b>: path of your resource files.</li>
   <li><b>anyRes</b>: write 'y' if you have any resource file, otherwise write 'n'.</li>
   <li><b>sleepTimer</b>: timer to check modules and connections states; it is '5000' (milliseconds) to default.</li>
  </ul>
