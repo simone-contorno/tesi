@@ -81,7 +81,7 @@ yarpmanager-console2 allows many commands to launch:
   <li>check state [id]:       check for running state of application or a module indicated by id.</li>
   <li>check con [id]:         check for all connections state or just one connection indicated by id.</li>
   <li>set <option> [value]:   set value to an option. To see all available options type 'set --help'.</li>
-  <li>export [filename]:      export application's graph ad Graphviz dot format.</li>
+  <li>export [filename]:      export application's graph as Graphviz dot format.</li>
   <li>assign hosts:           automatically assign modules to proper nodes using load balancer.</li>
   </ul>
 
