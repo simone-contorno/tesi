@@ -33,7 +33,7 @@
 #include <chrono>
 #include <cctype>
 #include <algorithm>
-#include<fstream>
+#include <fstream>
 
 #define SIGINT 2
 
