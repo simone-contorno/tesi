@@ -102,8 +102,6 @@ class Console {
             int IDs = -1;
             bool check = false;
 
-            const std::string directorySeparator{yarp::conf::filesystem::preferred_separator};
-
             /* Build stateModules and stateConnections */
             if (build == true) {
                 stateModules = {false};
