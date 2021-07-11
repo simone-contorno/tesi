@@ -188,7 +188,15 @@ Now you can play with yarpmanager-console2.
 <a name="tutorial"></a><br>
 ### Tutorial (example)
 
-Run the program and watch all the available commands:
+First make sure you have a name server running:
+
+<pre>
+ <code>
+  yarpserver
+ </code>
+</pre>
+
+Open another terminal and run the program and watch all the available commands:
 
 <pre>
  <code>
