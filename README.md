@@ -196,7 +196,7 @@ First make sure you have a name server running:
  </code>
 </pre>
 
-Open another terminal and run the program and watch all the available commands:
+Open another terminal, run the program and watch all the available commands:
 
 <pre>
  <code>
