@@ -91,7 +91,7 @@ It appears like this in the program:
 
 When you launch the program it starts with the main function; if you did not set the 'ymc2-config.ini' file, you need to insert the folder's paths that contain your applications, modules and resources (in this last one case, only if you have them, otherwise you can digit 'n' when the program will ask you, or set it in the 'ymc2-config.ini' file).<br>
 After, the 'main' class starts the separate thread, that will check all modules and connections each 5 seconds (to default, but you can set it in the 'ymc2-config.ini' file), and calls the function 'messageConsole' by the 'Console' class; it starts a 'while' cycle that calls the function 'getInput', so you can start to use all the commands shown above; when you digit one of them, it starts a control with a conditional structure 'if-else if-else' to select the correct operation and call the correct functions.<br>
-When you have finished to use the program, you need to digit 'exit' to close it, because there is a control in the 'main' class to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
+When you have finished to use the program, you need to digit 'exit' to close it, because there is a control in the 'main' function to catch the 'CTRL+C' signal; in this way the program will close all connections and running modules before the end.
 
 <a name="installation"></a><br>
 ### Installation, Configuration and Execution
