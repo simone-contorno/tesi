@@ -111,7 +111,7 @@ Go in the folder where you downloaded the zip and extract it:
 
 <pre>
  <code>
-  unzip tesi-main.zip
+  unzip yarpmanager-console2-main.zip
  </code>
 </pre>
 
